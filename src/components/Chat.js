@@ -8,13 +8,13 @@ import {
   MessegeTime,
 } from "./StyledComponents";
 
-export default function Chat({ title, lastMessage, onClick, time }) {
+export default function Chat({ title, lastMessege, onClick, time }) {
   return (
     <ChatWrapper onClick={onClick}>
       <Avatar />
       <ChatLabel>
         <ChatTitle>{title}</ChatTitle>
-        <LastMessege>{lastMessage}</LastMessege>
+        <LastMessege>{lastMessege}</LastMessege>
       </ChatLabel>
       <MessegeTime>{time}</MessegeTime>
     </ChatWrapper>

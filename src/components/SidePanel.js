@@ -32,9 +32,10 @@ export default function SidePanel({ onClick, info, data }) {
                 key={dataInfo.id}
                 title={dataInfo.name}
                 time={lastMessege.messegeTime}
-                lastMessage={
-                  lastMessege.messege &&
-                  `${lastMessege.messege.substring(0, 50)}...`
+                lastMessege={
+                  lastMessege.messege.length > 50
+                    ? `${lastMessege.messege.substring(0, 50)}...`
+                    : lastMessege.messege
                 }
                 onClick={() => onClick(dataInfo.id)}
               />

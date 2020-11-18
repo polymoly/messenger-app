@@ -5,7 +5,7 @@ import MessegeView from "./MessegeView";
 import { ChatViewWrapper } from "./StyledComponents";
 
 export default function ChatView({ id }) {
-  const [chat, setChat] = useState();
+  const [chat, setChat] = useState('');
   const [info, setInfo] = useState([]);
   const newChat = {
     id: 4,

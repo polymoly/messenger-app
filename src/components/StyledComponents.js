@@ -137,6 +137,7 @@ export const ChatTitle = styled.span`
   font-size: 1.1rem;
   font-weight: bold;
   margin: 5px;
+  text-align: left;
 `;
 
 export const LastMessege = styled.span`
@@ -162,7 +163,7 @@ export const InputSearch = styled.div`
 export const MessegeViewWrapper = styled.div`
   position: relative;
   width: 100%;
-  padding:70px 0;
+  padding: 70px 0;
   height: 100%;
   background-color: #ece5dd;
   background-image: url("./images/chatview-bg.jpg");
@@ -194,18 +195,47 @@ export const ChatPage = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  scroll-behavior:smooth;
+  scroll-behavior: smooth;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f5f0ebcc;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #16a191;
+    border-radius: 1px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #128c7e;
+  }
 `;
 
 export const MessegeWrapper = styled.div`
+  position: relative;
   margin: 40px 30px;
-  padding: 4px 10px;
+  box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.2);
+  padding: 5px 10px 5px 10px;
   border-radius: 5px;
   margin-left: ${(props) => (props.isOpponent ? "30px" : "auto")} !important;
-  background-color: ${(props) => (props.isOpponent ? "#DCF8C6" : "#25D366")};
-  color: ${(props) => (props.isOpponent ? "#222" : "#f2f2f2")};
+  background-color: ${(props) => (props.isOpponent ? "#F2F2F2" : "#DCF8C6")};
+  color: #222;
   display: flex;
+  justify-content: space-between;
+  flex-direction: ${(props) => (props.isOpponent ? "row-reverse" : "row")};
+  align-items: center;
   width: fit-content;
+  span {
+    font-size: 0.7rem;
+    color: #555;
+    margin: ${(props) => (props.isOpponent ? "0 5px 0 0" : "0 0 0 5px")};
+    font-style: normal !important;
+  }
+  font-style: ${(props) => (props.isDelete ? "italic" : "normal")};
+  font-size: ${(props) => (props.isDelete ? "14px" : "15px")}; ;
 `;
 
 export const ViewUserTitle = styled.div`
@@ -222,9 +252,11 @@ export const ChatHeaderToolWrapper = styled.div`
   align-items: center;
   > svg {
     font-size: 1.3rem;
-    margin-left: 30px;
     color: #128c7e;
     cursor: pointer;
+    &:not(:nth-child(1)) {
+      margin-left: 30px;
+    }
   }
 `;
 
@@ -252,5 +284,95 @@ export const SideMenuWrapper = styled.div`
     color: #128c7e;
     transform: translateY(-50%);
     cursor: pointer;
+  }
+`;
+
+export const SidePanelInput = styled.input`
+  flex: 0.94;
+  height: 34px;
+
+  color: #222;
+  border: none;
+  border-bottom: 1px solid #dadada;
+  outline: none;
+  padding: 0 5px;
+  font-size: 0.9rem;
+  background-color: transparent;
+  &::placeholder {
+    color: #ccc;
+  }
+`;
+
+export const MessegeViewInput = styled.input`
+  flex: 0.8;
+  height: 34px;
+  border: none;
+  margin-left: auto;
+  margin-right: 50px;
+  border-bottom: 1px solid #dadada;
+  outline: none;
+  padding: 0 5px;
+  font-size: 0.9rem;
+  background-color: transparent;
+  &::placeholder {
+    color: #ccc;
+  }
+`;
+
+export const ContextClick = styled.div`
+  position: absolute;
+  padding: 9px 4px;
+  width: 100px;
+  box-shadow: 0px 1px 4px rgba(100, 100, 100, 0.6);
+  bottom: 30px;
+  right: ${(props) => !props.isOpponent && 0};
+  left: ${(props) => props.isOpponent && 0};
+  background-color: #555;
+  color: #fff;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  font-family: "Roboto";
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0px 0px 2px rgba(100, 100, 100, 0.2);
+  &:hover {
+    background-color: #444;
+  }
+`;
+
+export const UndoWrapper = styled.div`
+  position: absolute;
+  padding: 5px;
+  width: 80px;
+  top: 30px;
+  right: ${(props) => !props.isOpponent && 0};
+  left: ${(props) => props.isOpponent && 0};
+  background-color: #16a191;
+  border-radius: 5px;
+  display: flex;
+
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0px 0px 2px rgba(100, 100, 100, 0.2);
+  span {
+    color: #fff;
+    font-size: 0.95rem;
+    font-style: normal !important;
+    font-family: "Roboto";
+    margin-left: 7px;
+  }
+  &:hover {
+    background-color: #128c7e;
+  }
+
+  small {
+    margin-right: 1px;
+    text-align: center;
+    font-style: normal;
+    font-size: 0.9rem;
   }
 `;

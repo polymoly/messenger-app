@@ -1,4 +1,4 @@
-import React, { createRef, useEffect } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import {
   Avatar,
   ChatHeaderToolWrapper,
@@ -7,12 +7,14 @@ import {
   MessegeViewHeader,
   MessegeViewWrapper,
   ViewUserTitle,
+  MessegeViewInput,
 } from "./StyledComponents";
 import * as fa from "react-icons/fa";
 import Messege from "./Messege";
 
 export default function MessegeView({ title, chats = [] }) {
   const chatRef = createRef();
+  const [messegeSearchMode, setMessegeSearchMode] = useState(false);
 
   useEffect(() => {
     chatRef.current.scrollTo(200, chatRef.current.scrollHeight);
@@ -25,8 +27,20 @@ export default function MessegeView({ title, chats = [] }) {
           <Avatar />
           <ChatTitle>{title}</ChatTitle>
         </ViewUserTitle>
+        {messegeSearchMode && (
+          <MessegeViewInput placeholder="Search in messages..." />
+        )}
         <ChatHeaderToolWrapper>
-          <fa.FaSearch />
+          {!messegeSearchMode && (
+            <fa.FaSearch
+              onClick={() => setMessegeSearchMode(!messegeSearchMode)}
+            />
+          )}
+          {messegeSearchMode && (
+            <fa.FaArrowRight
+              onClick={() => setMessegeSearchMode(!messegeSearchMode)}
+            />
+          )}
           <fa.FaEllipsisV />
         </ChatHeaderToolWrapper>
       </MessegeViewHeader>
@@ -36,6 +50,7 @@ export default function MessegeView({ title, chats = [] }) {
             <Messege
               key={chat.id}
               message={chat.messege}
+              time={chat.messegeTime}
               isOpponent={chat.isOpponent}
             />
           );
