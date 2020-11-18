@@ -3,13 +3,15 @@ import ChatView from "./components/ChatView";
 import SideMenu from "./components/SideMenu";
 import SidePanel from "./components/SidePanel";
 import { Wrapper } from "./components/StyledComponents";
+import { DataContext } from "./components/Context";
 
 function App() {
   const [id, setId] = useState(null);
-
+  const [index, setIndex] = useState(null);
   const [data, setData] = useState([]);
-  const onClick = (id) => {
+  const onClick = (id, index) => {
     setId(id);
+    setIndex(index);
   };
 
   useEffect(() => {
@@ -26,10 +28,12 @@ function App() {
   }, []);
 
   return (
-    <Wrapper>
-      <SidePanel onClick={onClick} data={data} />
-      <ChatView id={id} />
-    </Wrapper>
+    <DataContext.Provider value={data}>
+      <Wrapper>
+        <SidePanel onClick={onClick} />
+        <ChatView id={id} index={index} />
+      </Wrapper>
+    </DataContext.Provider>
   );
 }
 

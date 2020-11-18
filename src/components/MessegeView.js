@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from "react";
+import React, { createRef, useCallback, useEffect, useState } from "react";
 import {
   Avatar,
   ChatHeaderToolWrapper,
@@ -8,17 +8,27 @@ import {
   MessegeViewWrapper,
   ViewUserTitle,
   MessegeViewInput,
+  ClearHistory,
 } from "./StyledComponents";
 import * as fa from "react-icons/fa";
 import Messege from "./Messege";
 
 export default function MessegeView({ title, chats = [] }) {
   const chatRef = createRef();
+
   const [messegeSearchMode, setMessegeSearchMode] = useState(false);
+
 
   useEffect(() => {
     chatRef.current.scrollTo(200, chatRef.current.scrollHeight);
   }, [chatRef]);
+
+  const rightClickHistory = useCallback((e) => {
+    if (e.type === "contextmenu") {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, []);
 
   return (
     <MessegeViewWrapper>
@@ -44,7 +54,7 @@ export default function MessegeView({ title, chats = [] }) {
           <fa.FaEllipsisV />
         </ChatHeaderToolWrapper>
       </MessegeViewHeader>
-      <ChatPage ref={chatRef}>
+      <ChatPage ref={chatRef} onContextMenu={rightClickHistory}>
         {chats.map((chat) => {
           return (
             <Messege
@@ -52,6 +62,7 @@ export default function MessegeView({ title, chats = [] }) {
               message={chat.messege}
               time={chat.messegeTime}
               isOpponent={chat.isOpponent}
+              id={chat.id}
             />
           );
         })}

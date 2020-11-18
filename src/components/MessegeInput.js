@@ -1,13 +1,13 @@
 import React, {
   useCallback,
+  useContext,
   useEffect,
-  useReducer,
   useRef,
   useState,
 } from "react";
 import { ChatInput, MessegeInputWrapper } from "./StyledComponents";
 import ReactDOM from "react-dom";
-import * as fa from "react-icons/fa";
+
 import {
   MdSend,
   MdMic,
@@ -15,17 +15,20 @@ import {
   MdAttachFile,
   MdMicOff,
 } from "react-icons/md";
-
-export default function MessegeInput({ onClick }) {
+import { DataContext } from "./Context";
+export default function MessegeInput({ onClick, index }) {
+  const data = useContext(DataContext);
   const [val, setVal] = useState("");
   const [Record, setRecord] = useState(false);
   const inputRef = useRef();
-
   const optimize = useCallback(() => {
     setVal("");
     onClick(val);
   }, [onClick, val]);
-
+  function array_move(arr, user_index) {
+    arr.splice(0, 0, arr.splice(user_index, 1)[0]);
+    return arr;
+  }
   useEffect(() => {
     if (val.length > 1) {
       setVal(val.replace(/^\w/, (c) => c.toUpperCase()));
@@ -37,10 +40,11 @@ export default function MessegeInput({ onClick }) {
         val
       ) {
         optimize();
+        console.log(array_move(data, index));
       }
     });
     return window.removeEventListener("keypress", optimize);
-  }, [optimize, val]);
+  }, [optimize, val,data,index]);
 
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -74,6 +78,7 @@ export default function MessegeInput({ onClick }) {
   };
   const handleSendMessage = () => {
     optimize();
+    console.log(array_move(data, index));
   };
 
   return (

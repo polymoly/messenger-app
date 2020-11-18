@@ -188,10 +188,12 @@ export const MessegeViewHeader = styled.div`
 `;
 export const ChatPage = styled.div`
   position: relative;
+  padding: 20px 30px;
   z-index: 1;
   width: 100%;
   height: 100%;
   overflow-y: auto;
+  overflow-x:hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -216,11 +218,15 @@ export const ChatPage = styled.div`
 
 export const MessegeWrapper = styled.div`
   position: relative;
-  margin: 40px 30px;
+  margin: 40px 10px;
   box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.2);
   padding: 5px 10px 5px 10px;
   border-radius: 5px;
-  margin-left: ${(props) => (props.isOpponent ? "30px" : "auto")} !important;
+  line-height: 20px;
+  text-align: justify;
+  border-bottom-right-radius: ${(props) => !props.isOpponent && 0};
+  border-bottom-left-radius: ${(props) => props.isOpponent && 0};
+  margin-left: ${(props) => (props.isOpponent ? "10px" : "auto")} !important;
   background-color: ${(props) => (props.isOpponent ? "#F2F2F2" : "#DCF8C6")};
   color: #222;
   display: flex;
@@ -235,7 +241,21 @@ export const MessegeWrapper = styled.div`
     font-style: normal !important;
   }
   font-style: ${(props) => (props.isDelete ? "italic" : "normal")};
-  font-size: ${(props) => (props.isDelete ? "14px" : "15px")}; ;
+  font-size: ${(props) => (props.isDelete ? "14px" : "15px")};
+  &::after {
+    content: " ";
+    position: absolute;
+    right: ${(props) => !props.isOpponent && "-7px"};
+    left: ${(props) => props.isOpponent && "-7px"};
+    top: calc(100% - 7px);
+    border-top: 7px solid transparent;
+    border-right: ${(props) =>
+      !props.isOpponent ? "none" : "7px solid #F2F2F2"};
+    border-left: ${(props) =>
+      props.isOpponent ? "none" : "7px solid #DCF8C6"};
+    border-bottom: 0px solid transparent;
+    box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.2);
+  }
 `;
 
 export const ViewUserTitle = styled.div`
@@ -324,7 +344,7 @@ export const ContextClick = styled.div`
   padding: 9px 4px;
   width: 100px;
   box-shadow: 0px 1px 4px rgba(100, 100, 100, 0.6);
-  bottom: 30px;
+  bottom: calc(100% + 5px);
   right: ${(props) => !props.isOpponent && 0};
   left: ${(props) => props.isOpponent && 0};
   background-color: #555;
@@ -347,9 +367,9 @@ export const UndoWrapper = styled.div`
   position: absolute;
   padding: 5px;
   width: 80px;
-  top: 30px;
-  right: ${(props) => !props.isOpponent && 0};
-  left: ${(props) => props.isOpponent && 0};
+  top: calc(100% + 5px);
+  right: ${(props) => !props.isOpponent && "-7px"};
+  left: ${(props) => props.isOpponent && "-7px"};
   background-color: #16a191;
   border-radius: 5px;
   display: flex;
@@ -376,3 +396,4 @@ export const UndoWrapper = styled.div`
     font-size: 0.9rem;
   }
 `;
+

@@ -1,14 +1,16 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 
 import MessegeInput from "./MessegeInput";
 import MessegeView from "./MessegeView";
 import { ChatViewWrapper } from "./StyledComponents";
 
-export default function ChatView({ id }) {
-  const [chat, setChat] = useState('');
+
+export default function ChatView({ id, index }) {
+ 
+  const [chat, setChat] = useState("");
   const [info, setInfo] = useState([]);
   const newChat = {
-    id: 4,
+    id: "4",
     messege: chat,
     isOpponent: true,
     messegeTime: new Date().toLocaleTimeString([], {
@@ -51,7 +53,9 @@ export default function ChatView({ id }) {
   return (
     <ChatViewWrapper>
       {info.length !== 0 && <MessegeView title={info[1]} chats={info[0]} />}
-      {info.length !== 0 && <MessegeInput id={id} onClick={handleChat} />}
+      {info.length !== 0 && (
+        <MessegeInput id={id} index={index} onClick={handleChat} />
+      )}
     </ChatViewWrapper>
   );
 }

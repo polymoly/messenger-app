@@ -9,6 +9,7 @@ function Messege({ message, isOpponent, time }) {
   const contextRef = createRef();
   const handleRightClick = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     if (e.type === "contextmenu") {
       if (!isDelete) {
         setIsRighClick(true);

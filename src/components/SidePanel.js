@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Chat from "./Chat";
 import SideMenu from "./SideMenu";
 import SidePanelSearchBar from "./SidePanelSearchBar";
 import { SideWrapper } from "./StyledComponents";
-import { Friends } from "./Server2";
-import MenuContext from "./Context";
+import {MenuContext ,DataContext} from "./Context";
 
-export default function SidePanel({ onClick, info, data }) {
+
+export default function SidePanel({ onClick, info }) {
+
+  const data = useContext(DataContext);
+
   const [SideMenuShow, setSideMenuShow] = useState(false);
   console.log(data);
 
@@ -22,7 +25,7 @@ export default function SidePanel({ onClick, info, data }) {
     <MenuContext.Provider value={SideMenuShow}>
       <SideWrapper>
         <SidePanelSearchBar onClick={handleClick} />
-        {data.map((dataInfo) => {
+        {data.map((dataInfo, index) => {
           const chats = [...dataInfo.chats];
           const lastMessege = { ...chats[chats.length - 1] };
           console.log(lastMessege);
@@ -37,7 +40,7 @@ export default function SidePanel({ onClick, info, data }) {
                     ? `${lastMessege.messege.substring(0, 50)}...`
                     : lastMessege.messege
                 }
-                onClick={() => onClick(dataInfo.id)}
+                onClick={() => onClick(dataInfo.id,index)}
               />
             )
           );
