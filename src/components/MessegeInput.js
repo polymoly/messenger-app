@@ -15,7 +15,7 @@ import {
   MdAttachFile,
 } from "react-icons/md";
 
-export default function MessegeInput({ chosenFriend, onClick }) {
+export default function MessegeInput({ onClick }) {
   const [val, setVal] = useState("");
 
   const inputRef = useRef();
@@ -44,7 +44,7 @@ export default function MessegeInput({ chosenFriend, onClick }) {
     setVal(e.target.value);
   };
   const handleSendMessage = () => {
-    optimize()
+    optimize();
   };
 
   return (

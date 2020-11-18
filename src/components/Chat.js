@@ -8,7 +8,7 @@ import {
   MessegeTime,
 } from "./StyledComponents";
 
-export default function Chat({ title, lastMessage ,onClick }) {
+export default function Chat({ title, lastMessage, onClick, time }) {
   return (
     <ChatWrapper onClick={onClick}>
       <Avatar />
@@ -16,13 +16,7 @@ export default function Chat({ title, lastMessage ,onClick }) {
         <ChatTitle>{title}</ChatTitle>
         <LastMessege>{lastMessage}</LastMessege>
       </ChatLabel>
-      <MessegeTime>
-        {new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        })}
-      </MessegeTime>
+      <MessegeTime>{time}</MessegeTime>
     </ChatWrapper>
   );
 }

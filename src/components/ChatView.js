@@ -1,69 +1,57 @@
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 
 import MessegeInput from "./MessegeInput";
 import MessegeView from "./MessegeView";
 import { ChatViewWrapper } from "./StyledComponents";
 
 export default function ChatView({ id }) {
-  const Friends = [
-    {
-      id: "1",
-      name: "george colony",
-      avatar: undefined,
-      chats: [],
-    },
-    {
-      id: "2",
-      name: "Brad pitt",
-      avatar: undefined,
-      chats: [],
-    },
-    {
-      id: "3",
-      name: "Gary oldman",
-      avatar: undefined,
-      chats: [],
-    },
-    {
-      id: "4",
-      name: "Robert deniro",
-      avatar: undefined,
-      chats: [],
-    },
-    {
-      id: "5",
-      name: "Leo dicaprio",
-      avatar: undefined,
-      chats: [],
-    },
-  ];
- 
-  const chosenFriend = Friends.find((friend) => friend.id === id);
-  
-  const [ chats , setChats] = useState(chosenFriend ? chosenFriend.chats : []);
+  const [chat, setChat] = useState();
+  const [info, setInfo] = useState([]);
+  const newChat = {
+    id: 4,
+    messege: chat,
+    isOpponent: true,
+    messegeTime: new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    }),
+  };
+  useEffect(() => {
+    fetch("http://localhost:3001/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ chat: newChat, id: id }),
+    });
+  }, [chat]);
 
+  useEffect(() => {
+    if (id) {
+      console.log(id);
+      fetch("http://localhost:3001/getInfo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          setInfo([res.chats, res.name, res.messegeTime, res.id]);
+        });
+    }
+  }, [id]);
+  // const chosenFriend = Friends.find((friend) => friend.id === id);
 
   const handleChat = (val) => {
-    const currChats = [...chats];
-    const newChat = {
-      id: chats.length + 1,
-      message: val,
-      isOpponent: false,
-    };
-    currChats.push(newChat);
-    setChats(currChats);
-    console.log(currChats);
+    setChat(val);
   };
   return (
     <ChatViewWrapper>
-      {chosenFriend && <MessegeView title={Friends.name} chats={chats} />}
-      {chosenFriend && (
-        <MessegeInput
-          id={id}
-          chosenFriend={chosenFriend}
-          onClick={handleChat}
-        />
-      )}
+      {info.length !== 0 && <MessegeView title={info[1]} chats={info[0]} />}
+      {info.length !== 0 && <MessegeInput id={id} onClick={handleChat} />}
     </ChatViewWrapper>
   );
 }

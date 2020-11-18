@@ -15,7 +15,7 @@ export default function MessegeView({ title, chats = [] }) {
   const chatRef = createRef();
 
   useEffect(() => {
-    chatRef.current.scrollTo(0, chatRef.current.scrollHeight);
+    chatRef.current.scrollTo(200, chatRef.current.scrollHeight);
   }, [chatRef]);
 
   return (
@@ -35,7 +35,7 @@ export default function MessegeView({ title, chats = [] }) {
           return (
             <Messege
               key={chat.id}
-              message={chat.message}
+              message={chat.messege}
               isOpponent={chat.isOpponent}
             />
           );
