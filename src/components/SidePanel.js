@@ -24,7 +24,7 @@ export default function SidePanel({ onClick, info }) {
   return (
     <MenuContext.Provider value={SideMenuShow}>
       <SideWrapper>
-        <SidePanelSearchBar onClick={handleClick} />
+        <SidePanelSearchBar onClickSideMenu={handleClick} />
         {data.map((dataInfo, index) => {
           const chats = [...dataInfo.chats];
           const lastMessege = { ...chats[chats.length - 1] };

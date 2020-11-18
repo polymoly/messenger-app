@@ -8,16 +8,19 @@ import {
   MessegeViewWrapper,
   ViewUserTitle,
   MessegeViewInput,
-  ClearHistory,
+  ManageMenuWrapper,
+  HearingModal,
+  Ellipsis,
 } from "./StyledComponents";
 import * as fa from "react-icons/fa";
+import { MdHearing } from "react-icons/md";
 import Messege from "./Messege";
 
-export default function MessegeView({ title, chats = [] }) {
+export default function MessegeView({ title, chats = [], record }) {
   const chatRef = createRef();
 
   const [messegeSearchMode, setMessegeSearchMode] = useState(false);
-
+  const [manageMenu, setManageMenu] = useState(false);
 
   useEffect(() => {
     chatRef.current.scrollTo(200, chatRef.current.scrollHeight);
@@ -27,9 +30,12 @@ export default function MessegeView({ title, chats = [] }) {
     if (e.type === "contextmenu") {
       e.preventDefault();
       e.stopPropagation();
+      setManageMenu(false);
     }
   }, []);
-
+  const handleClearWindow = () => {
+    setManageMenu(false);
+  };
   return (
     <MessegeViewWrapper>
       <MessegeViewHeader>
@@ -51,10 +57,33 @@ export default function MessegeView({ title, chats = [] }) {
               onClick={() => setMessegeSearchMode(!messegeSearchMode)}
             />
           )}
-          <fa.FaEllipsisV />
+          <fa.FaEllipsisV onClick={() => setManageMenu(!manageMenu)} />
         </ChatHeaderToolWrapper>
+        {manageMenu && (
+          <ManageMenuWrapper>
+            <span>Clear chat history</span>
+            <span>Delete this contact</span>
+          </ManageMenuWrapper>
+        )}
       </MessegeViewHeader>
-      <ChatPage ref={chatRef} onContextMenu={rightClickHistory}>
+      {!record && (
+        <HearingModal>
+          <MdHearing />
+          <span>
+            Listening 
+            <Ellipsis>
+              <span>.</span>
+              <span>.</span>
+              <span>.</span>
+            </Ellipsis>
+          </span>
+        </HearingModal>
+      )}
+      <ChatPage
+        ref={chatRef}
+        onClick={handleClearWindow}
+        onContextMenu={rightClickHistory}
+      >
         {chats.map((chat) => {
           return (
             <Messege

@@ -4,11 +4,10 @@ import MessegeInput from "./MessegeInput";
 import MessegeView from "./MessegeView";
 import { ChatViewWrapper } from "./StyledComponents";
 
-
 export default function ChatView({ id, index }) {
- 
   const [chat, setChat] = useState("");
   const [info, setInfo] = useState([]);
+  const [record, setRecord] = useState(true);
   const newChat = {
     id: "4",
     messege: chat,
@@ -50,11 +49,22 @@ export default function ChatView({ id, index }) {
   const handleChat = (val) => {
     setChat(val);
   };
+  const handleListening = (record) => {
+    setRecord(record);
+  };
+
   return (
     <ChatViewWrapper>
-      {info.length !== 0 && <MessegeView title={info[1]} chats={info[0]} />}
       {info.length !== 0 && (
-        <MessegeInput id={id} index={index} onClick={handleChat} />
+        <MessegeView title={info[1]} chats={info[0]} record={record} chat={chat } />
+      )}
+      {info.length !== 0 && (
+        <MessegeInput
+          id={id}
+          index={index}
+          onClick={handleChat}
+          handleListening={handleListening}
+        />
       )}
     </ChatViewWrapper>
   );

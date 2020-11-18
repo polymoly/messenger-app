@@ -11,6 +11,8 @@
         "cors": "^2.8.5",
         "express": "^4.17.1",
         "react": "^17.0.1",
+        "react-animated-dots": "^1.1.0",
+        "react-animated-ellipsis": "^1.0.0",
         "react-countdown-circle-timer": "^2.3.7",
         "react-dom": "^17.0.1",
         "react-icons": "^3.11.0",

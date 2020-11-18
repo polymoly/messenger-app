@@ -1,8 +1,8 @@
-import React, { createRef, useRef, useState } from "react";
+import React, {useState } from "react";
 import { InputSearch, SideSearchWrapper,SidePanelInput } from "./StyledComponents";
 import * as fa from "react-icons/fa";
 
-export default function SidePanelSearchBar({ onClick }) {
+export default function SidePanelSearchBar({ onClickSideMenu }) {
   const [searchMode, setSearchMode] = useState(false);
  ;
   const handleChangeMode = () => {
@@ -14,7 +14,7 @@ export default function SidePanelSearchBar({ onClick }) {
   return (
     <SideSearchWrapper>
       {!searchMode ? (
-        <fa.FaBars onClick={onClick} />
+        <fa.FaBars onClick={onClickSideMenu} />
       ) : (
         <fa.FaArrowLeft onClick={handleChangeMode} />
       )}

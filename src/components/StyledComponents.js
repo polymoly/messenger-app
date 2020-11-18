@@ -166,7 +166,7 @@ export const MessegeViewWrapper = styled.div`
   padding: 70px 0;
   height: 100%;
   background-color: #ece5dd;
-  background-image: url("./images/chatview-bg.jpg");
+  background-image: url("./images/bg.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -193,7 +193,7 @@ export const ChatPage = styled.div`
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  overflow-x:hidden;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -341,13 +341,13 @@ export const MessegeViewInput = styled.input`
 
 export const ContextClick = styled.div`
   position: absolute;
-  padding: 9px 4px;
+  padding: 4px;
   width: 100px;
   box-shadow: 0px 1px 4px rgba(100, 100, 100, 0.6);
   bottom: calc(100% + 5px);
   right: ${(props) => !props.isOpponent && 0};
   left: ${(props) => props.isOpponent && 0};
-  background-color: #555;
+  background-color: #22caae;
   color: #fff;
   border-radius: 5px;
   display: flex;
@@ -357,9 +357,9 @@ export const ContextClick = styled.div`
   font-family: "Roboto";
   transition: all 0.2s ease-in-out;
   cursor: pointer;
-  box-shadow: 0px 0px 2px rgba(100, 100, 100, 0.2);
+  box-shadow: 0px 0px 1px rgba(100, 100, 100, 0.2);
   &:hover {
-    background-color: #444;
+    background-color: #1cb399;
   }
 `;
 
@@ -397,3 +397,102 @@ export const UndoWrapper = styled.div`
   }
 `;
 
+export const ManageMenuWrapper = styled.div`
+  width: auto;
+  height: auto;
+  position: absolute;
+  z-index: 999;
+  top: 50px;
+  right: 30px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px -1px 3px rgba(100, 100, 100, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow: hidden;
+  span {
+    font-size: 0.93rem;
+    color: #222;
+    width: 100%;
+    padding: 5px 10px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    &:hover {
+      background-color: #e2e2e2;
+    }
+  }
+`;
+
+export const HearingModal = styled.div`
+  position: absolute;
+  width: 400px;
+  max-width: 95%;
+  margin: 0 auto;
+  height: 230px;
+  background-color: #128c7e;
+  left: 50%;
+  top: 50%;
+  z-index: 9999;
+  transform: translate(-50%, -20%);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px rgba(100, 100, 100, 0.2);
+  span {
+    font-size: 1.2rem;
+    font-style: italic;
+  }
+  svg {
+    font-size: 8rem;
+  }
+`;
+
+export const Ellipsis = styled.span`
+  span {
+    opacity: 0;
+    -webkit-animation: ellipsis-dot 1.4s infinite;
+    animation: ellipsis-dot 1.4s infinite;
+  }
+  span:nth-child(1) {
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s;
+    margin-left: 3px;
+  }
+  span:nth-child(2) {
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+  }
+  span:nth-child(3) {
+    -webkit-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+  }
+  @-webkit-keyframes ellipsis-dot {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes ellipsis-dot {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+`;

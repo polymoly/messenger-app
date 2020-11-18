@@ -16,7 +16,7 @@ import {
   MdMicOff,
 } from "react-icons/md";
 import { DataContext } from "./Context";
-export default function MessegeInput({ onClick, index }) {
+export default function MessegeInput({ onClick, index, handleListening }) {
   const data = useContext(DataContext);
   const [val, setVal] = useState("");
   const [Record, setRecord] = useState(false);
@@ -44,7 +44,7 @@ export default function MessegeInput({ onClick, index }) {
       }
     });
     return window.removeEventListener("keypress", optimize);
-  }, [optimize, val,data,index]);
+  }, [optimize, val, data, index]);
 
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -52,6 +52,7 @@ export default function MessegeInput({ onClick, index }) {
   recognition.continuous = true;
 
   const handleRecord = () => {
+    handleListening(Record);
     if ("speechSynthesis" in window && SpeechRecognition) {
       if (!Record) {
         setRecord(true);
@@ -67,7 +68,11 @@ export default function MessegeInput({ onClick, index }) {
   const resultOfSpeech = (event) => {
     const current = event.resultIndex;
     const transcript = event.results[current][0].transcript;
+    if(transcript.length !== 0){
+      setRecord(false);
+    }
     setVal(transcript);
+    
   };
 
   useEffect(() => {
@@ -77,7 +82,9 @@ export default function MessegeInput({ onClick, index }) {
     setVal(e.target.value);
   };
   const handleSendMessage = () => {
-    optimize();
+    if (val) {
+      optimize();
+    }
     console.log(array_move(data, index));
   };
 
