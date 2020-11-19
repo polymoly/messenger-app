@@ -15,16 +15,24 @@ import {
 import * as fa from "react-icons/fa";
 import { MdHearing } from "react-icons/md";
 import Messege from "./Messege";
+import ReactDOM from "react-dom";
+import SideMenu from "./SideMenu";
 
-export default function MessegeView({ title, chats = [], record }) {
+export default function MessegeView({
+  title,
+  chats = [],
+  record,
+  isOpen,
+  gender,
+}) {
   const chatRef = createRef();
 
-  const [messegeSearchMode, setMessegeSearchMode] = useState(false);
+  const [messegeSearchMode, setMessegeSearchMode] = useState(true);
   const [manageMenu, setManageMenu] = useState(false);
 
-  useEffect(() => {
-    chatRef.current.scrollTo(200, chatRef.current.scrollHeight);
-  }, [chatRef]);
+  // useEffect(() => {
+  //   chatRef.current.scrollTo(200, chatRef.current.scrollHeight);
+  // }, [chatRef]);
 
   const rightClickHistory = useCallback((e) => {
     if (e.type === "contextmenu") {
@@ -36,27 +44,23 @@ export default function MessegeView({ title, chats = [], record }) {
   const handleClearWindow = () => {
     setManageMenu(false);
   };
+  const handleMenu = () => {
+    setMessegeSearchMode(!messegeSearchMode);
+    isOpen(messegeSearchMode);
+  };
   return (
     <MessegeViewWrapper>
       <MessegeViewHeader>
         <ViewUserTitle>
-          <Avatar />
+          <Avatar gender={gender} />
           <ChatTitle>{title}</ChatTitle>
         </ViewUserTitle>
-        {messegeSearchMode && (
+        {/* {messegeSearchMode && (
           <MessegeViewInput placeholder="Search in messages..." />
-        )}
+        )} */}
         <ChatHeaderToolWrapper>
-          {!messegeSearchMode && (
-            <fa.FaSearch
-              onClick={() => setMessegeSearchMode(!messegeSearchMode)}
-            />
-          )}
-          {messegeSearchMode && (
-            <fa.FaArrowRight
-              onClick={() => setMessegeSearchMode(!messegeSearchMode)}
-            />
-          )}
+          <fa.FaSearch onClick={handleMenu} />
+
           <fa.FaEllipsisV onClick={() => setManageMenu(!manageMenu)} />
         </ChatHeaderToolWrapper>
         {manageMenu && (
@@ -70,7 +74,7 @@ export default function MessegeView({ title, chats = [], record }) {
         <HearingModal>
           <MdHearing />
           <span>
-            Listening 
+            Listening
             <Ellipsis>
               <span>.</span>
               <span>.</span>
@@ -80,7 +84,7 @@ export default function MessegeView({ title, chats = [], record }) {
         </HearingModal>
       )}
       <ChatPage
-        ref={chatRef}
+        // ref={chatRef}
         onClick={handleClearWindow}
         onContextMenu={rightClickHistory}
       >
@@ -96,6 +100,8 @@ export default function MessegeView({ title, chats = [], record }) {
           );
         })}
       </ChatPage>
+      <SideMenu messegeSearchMode={messegeSearchMode} title={title} onClick={handleMenu} chats={chats} />
+     
     </MessegeViewWrapper>
   );
 }

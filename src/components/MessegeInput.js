@@ -16,8 +16,8 @@ import {
   MdMicOff,
 } from "react-icons/md";
 import { DataContext } from "./Context";
-export default function MessegeInput({ onClick, index, handleListening }) {
-  const data = useContext(DataContext);
+export default function MessegeInput({ onClick, handleListening }) {
+
   const [val, setVal] = useState("");
   const [Record, setRecord] = useState(false);
   const inputRef = useRef();
@@ -25,10 +25,10 @@ export default function MessegeInput({ onClick, index, handleListening }) {
     setVal("");
     onClick(val);
   }, [onClick, val]);
-  function array_move(arr, user_index) {
-    arr.splice(0, 0, arr.splice(user_index, 1)[0]);
-    return arr;
-  }
+  // function array_move(arr, user_index) {
+  //   arr.splice(0, 0, arr.splice(user_index, 1)[0]);
+  //   return arr;
+  // }
   useEffect(() => {
     if (val.length > 1) {
       setVal(val.replace(/^\w/, (c) => c.toUpperCase()));
@@ -40,11 +40,11 @@ export default function MessegeInput({ onClick, index, handleListening }) {
         val
       ) {
         optimize();
-        console.log(array_move(data, index));
+      
       }
     });
     return window.removeEventListener("keypress", optimize);
-  }, [optimize, val, data, index]);
+  }, [optimize, val]);
 
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -85,7 +85,7 @@ export default function MessegeInput({ onClick, index, handleListening }) {
     if (val) {
       optimize();
     }
-    console.log(array_move(data, index));
+
   };
 
   return (

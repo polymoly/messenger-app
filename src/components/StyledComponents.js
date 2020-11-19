@@ -16,6 +16,8 @@ export const ChatViewWrapper = styled.div`
   justify-content: center;
   height: 100%;
   background-color: #ece5dd;
+  transition: all 0.5s ease-in-out;
+  margin-right: ${(props) => (props.menu ? "400px" : 0)};
 `;
 
 export const SideWrapper = styled.div`
@@ -23,19 +25,19 @@ export const SideWrapper = styled.div`
   max-width: 100%;
   width: 500px;
   height: 100%;
-  background-color: #ffffff;
+  background-color: #f1ebe7;
   overflow-y: auto;
   &::-webkit-scrollbar {
     width: 10px;
   }
 
   &::-webkit-scrollbar-track {
-    background: #f5f0ebcc;
+    background: #f1ebe7;
+    margin-top: 70px;
   }
 
   &::-webkit-scrollbar-thumb {
     background: #16a191;
-    border-radius: 50px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
@@ -50,11 +52,11 @@ export const MessegeInputWrapper = styled.div`
   height: 70px;
   bottom: 0;
   top: auto;
-  background-color: #f5f0ebcc;
+  background-color: rgb(241, 231, 225);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
   padding: 0 20px;
   > svg {
     font-size: 1.6rem;
@@ -81,10 +83,10 @@ export const SideSearchWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 10px 0 20px;
   width: 100%;
   height: 70px;
-  background-color: #f5f0ebcc;
+  background-color: #f1ebe7;
   > svg {
     font-size: 1.3rem;
     color: #128c7e;
@@ -100,15 +102,12 @@ export const ChatWrapper = styled.div`
   width: 100%;
   height: 90px;
   background-color: #ffffff;
-  border: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e6e6e6;
   padding: 0 20px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   &:hover {
     background-color: #e9e2dc80;
-  }
-  &:not(:last-child) {
-    border-bottom: none;
   }
 `;
 
@@ -116,7 +115,10 @@ export const Avatar = styled.div`
   width: 55px;
   height: 55px;
   border-radius: 50%;
-  background-image: url("./images/Avatar.svg");
+  background-image: ${(props) =>
+    props.gender === "male"
+      ? 'url("./images/Avatar.svg")'
+      : 'url("./images/girl.svg")'};
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -180,8 +182,9 @@ export const MessegeViewHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  border-left: 1px solid #e7e2de;
   height: 70px;
-  background-color: #fff;
+  background-color: #f1ebe7;
   box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
   top: 0;
   padding: 0 20px;
@@ -224,8 +227,8 @@ export const MessegeWrapper = styled.div`
   border-radius: 5px;
   line-height: 20px;
   text-align: justify;
-  border-bottom-right-radius: ${(props) => !props.isOpponent && 0};
-  border-bottom-left-radius: ${(props) => props.isOpponent && 0};
+  border-top-right-radius: ${(props) => !props.isOpponent && 0};
+  border-top-left-radius: ${(props) => props.isOpponent && 0};
   margin-left: ${(props) => (props.isOpponent ? "10px" : "auto")} !important;
   background-color: ${(props) => (props.isOpponent ? "#F2F2F2" : "#DCF8C6")};
   color: #222;
@@ -245,16 +248,16 @@ export const MessegeWrapper = styled.div`
   &::after {
     content: " ";
     position: absolute;
-    right: ${(props) => !props.isOpponent && "-7px"};
-    left: ${(props) => props.isOpponent && "-7px"};
-    top: calc(100% - 7px);
-    border-top: 7px solid transparent;
+    right: ${(props) => !props.isOpponent && "-9px"};
+    left: ${(props) => props.isOpponent && "-9px"};
+    bottom: calc(100% - 9px);
+    border-top: 0px solid transparent;
     border-right: ${(props) =>
-      !props.isOpponent ? "none" : "7px solid #F2F2F2"};
+      !props.isOpponent ? "none" : "9px solid #F2F2F2"};
     border-left: ${(props) =>
-      props.isOpponent ? "none" : "7px solid #DCF8C6"};
-    border-bottom: 0px solid transparent;
-    box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.2);
+      props.isOpponent ? "none" : "9px solid #DCF8C6"};
+    border-bottom: 9px solid transparent;
+    filter: drop-shadow(0px 1px 1px rgba(100, 100, 100, 0.2));
   }
 `;
 
@@ -281,36 +284,32 @@ export const ChatHeaderToolWrapper = styled.div`
 `;
 
 export const SideMenuWrapper = styled.div`
-  position: relative;
-  width: 500px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  width: 400px;
   max-width: 100%;
   position: fixed;
+  border-left: 1px solid #e0e0e0;
   top: 0;
-  left: 0;
+  right: 0;
   height: 100%;
   background-color: #fff;
   border-right: 1px solid #e0e0e0;
   transition: all 0.5s ease-in-out;
   transform: ${(props) =>
-    props.SideMenuShow ? "translateX(0)" : "translateX(-100%)"};
-
-  > svg {
-    font-size: 1.3rem;
-    transition: all 0.7s ease-in-out;
-    position: absolute;
-    opacity: ${(props) => (props.SideMenuShow ? 1 : 0)};
-    right: 20px;
-    top: 35px;
-    color: #128c7e;
-    transform: translateY(-50%);
-    cursor: pointer;
+    !props.messegeSearchMode ? "translateX(0)" : "translateX(100%)"};
+  span {
+    margin-top: 200px;
+    color: #aaa;
+    font-size: 0.9rem;
   }
 `;
 
 export const SidePanelInput = styled.input`
   flex: 0.94;
   height: 34px;
-
   color: #222;
   border: none;
   border-bottom: 1px solid #dadada;
@@ -406,7 +405,7 @@ export const ManageMenuWrapper = styled.div`
   right: 30px;
   background-color: #fff;
   border-radius: 5px;
-  box-shadow: 0px -1px 3px rgba(100, 100, 100, 0.3);
+  box-shadow: 0px 0px 3px rgba(100, 100, 100, 0.2);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -495,4 +494,50 @@ export const Ellipsis = styled.span`
       opacity: 0;
     }
   }
+`;
+
+export const SideMenuHeader = styled.div`
+  position: relative;
+  height: 70px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: #aaa;
+  align-items: center;
+  border-bottom: 1px solid #e2e2e2;
+  svg {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.3rem;
+    color: #444;
+    cursor: pointer;
+  }
+`;
+
+export const SideMenuInput = styled.input`
+  width: 90%;
+  height: 35px;
+  color: #222;
+  border: none;
+  border-bottom: 1px solid #dadada;
+  outline: none;
+  padding: 0 5px;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  background-color: transparent;
+  &::placeholder {
+    color: #ccc;
+  }
+`;
+
+export const FilterSearch = styled.p`
+  width: 90%;
+  font-size: 0.9rem;
+  text-align: left;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;

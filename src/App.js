@@ -7,11 +7,12 @@ import { DataContext } from "./components/Context";
 
 function App() {
   const [id, setId] = useState(null);
-  const [index, setIndex] = useState(null);
   const [data, setData] = useState([]);
-  const onClick = (id, index) => {
+  const [gender,setGender] = useState(null);
+  const onClick = (id,gender) => {
     setId(id);
-    setIndex(index);
+    setGender(gender);
+    // setIndex(index);
   };
 
   useEffect(() => {
@@ -31,7 +32,7 @@ function App() {
     <DataContext.Provider value={data}>
       <Wrapper>
         <SidePanel onClick={onClick} />
-        <ChatView id={id} index={index} />
+        <ChatView id={id} gender={gender}  />
       </Wrapper>
     </DataContext.Provider>
   );
