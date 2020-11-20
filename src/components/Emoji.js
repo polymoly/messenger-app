@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Picker, { SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
-import "./App.css";
 export default function App() {
   const EmojiData = ({ chosenEmoji }) => (
     <div>
@@ -15,7 +14,6 @@ export default function App() {
   return (
     <div>
       <Picker
-        style={{ width: 1000 }}
         onEmojiClick={onEmojiClick}
         disableAutoFocus={true}
         skinTone={SKIN_TONE_MEDIUM_DARK}

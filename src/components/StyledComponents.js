@@ -1,4 +1,10 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { fadeIn, fadeInRight } from "react-animations";
+const FadeIn = keyframes`${fadeIn}`;
+const FadeInRight = keyframes`${fadeInRight}`;
+
+const darkmodeBgColor = "#0f1724";
+const secondaryColor = "#1d2636";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -15,7 +21,7 @@ export const ChatViewWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  background-color: #ece5dd;
+  background-color: ${(props) => (props.darkmdoe ? secondaryColor : "#ece5dd")};
   transition: all 0.5s ease-in-out;
   margin-right: ${(props) => (props.menu ? "400px" : 0)};
 `;
@@ -25,14 +31,18 @@ export const SideWrapper = styled.div`
   max-width: 100%;
   width: 500px;
   height: 100%;
-  background-color: #f1ebe7;
+  background-color: ${(props) => (props.darkmode ? secondaryColor : "#f1ebe7")};
   overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.2s ease;
+  z-index: 999;
   &::-webkit-scrollbar {
     width: 10px;
   }
 
   &::-webkit-scrollbar-track {
-    background: #f1ebe7;
+    background: ${(props) => (props.darkmode ? secondaryColor : "#f1ebe7")};
+    transition: all 0.2s ease;
     margin-top: 70px;
   }
 
@@ -52,19 +62,23 @@ export const MessegeInputWrapper = styled.div`
   height: 70px;
   bottom: 0;
   top: auto;
-  background-color: rgb(241, 231, 225);
+  transition: all 0.2s ease;
+  box-shadow: 0px -1px 2px rgba(100, 100, 100, 0.15);
+  background-color: ${(props) => (props.darkmode ? secondaryColor : "#f1ebe7")};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
   padding: 0 20px;
   > svg {
     font-size: 1.6rem;
-    color: #333;
+    color: ${(props) => (props.darkmode ? "#f2f2f2" : "#333")};
     cursor: pointer;
     margin-right: 5px;
     &:last-child {
-      color: ${(props) => (!props.value ? "#333" : "#128c7e")};
+      color: ${(props) =>
+        !props.value
+          ? `${props.darkmode ? "#f2f2f2" : "#333"}`
+          : `${props.darkmode ? "#f2f2f2" : "#128c7e"}`};
     }
   }
 `;
@@ -76,6 +90,9 @@ export const ChatInput = styled.input`
   border-radius: 4px;
   font-size: 1.05rem;
   padding: 0 8px;
+  background-color: ${(props) => (props.darkmode ? darkmodeBgColor : "#fff")};
+  color: ${(props) => (props.darkmode ? "#fff" : "#222")};
+  transition: all 0.2s ease;
 `;
 
 export const SideSearchWrapper = styled.div`
@@ -86,10 +103,12 @@ export const SideSearchWrapper = styled.div`
   padding: 0 10px 0 20px;
   width: 100%;
   height: 70px;
-  background-color: #f1ebe7;
+  transition: all 0.2s ease;
+  color: ${(props) => (props.darkmode ? "#fff" : "#222")};
+  background-color: ${(props) => (props.darkmode ? secondaryColor : "#f1ebe7")};
   > svg {
     font-size: 1.3rem;
-    color: #128c7e;
+    color: ${(props) => (props.darkmode ? "#fff" : "#128c7e")}; //#128c7e
     cursor: pointer;
   }
 `;
@@ -101,19 +120,42 @@ export const ChatWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 90px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e6e6e6;
+
+  background-color: ${(props) => (props.darkmode ? darkmodeBgColor : "#fff")};
+  border-bottom: ${(props) =>
+    props.darkmode
+      ? `1px solid ${secondaryColor}`
+      : "1px solid #e6e6e6"}; //1d2636
   padding: 0 20px;
+  color: ${(props) => (props.darkmode ? "#f2f2f2" : "#222")};
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease;
   &:hover {
-    background-color: #e9e2dc80;
+    background-color: ${(props) =>
+      props.darkmode ? secondaryColor : "#e9e2dc80"};
   }
+`;
+export const ChatUnreadMsg = styled.span`
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 0.7rem;
+  transition: all 0.2s ease;
+  background-color: ${(props) => (props.darkmode ? secondaryColor : "#d6d6d6")};
+  color: #f2f2f2;
+  min-width: 20px;
+  box-shadow: ${(props) =>
+    props.darkmode ? `0px 0px 2px ${darkmodeBgColor}` : "none"};
+  min-height: 20px;
+  padding: 0px 2px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
 `;
 
 export const Avatar = styled.div`
-  width: 55px;
-  height: 55px;
+  min-width: 50px;
+  min-height: 50px;
   border-radius: 50%;
   background-image: ${(props) =>
     props.gender === "male"
@@ -152,7 +194,7 @@ export const MessegeTime = styled.span`
   top: 10px;
   right: 10px;
   color: #bbb;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
 `;
 
 export const InputSearch = styled.div`
@@ -173,6 +215,9 @@ export const MessegeViewWrapper = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+  background-blend-mode: ${(props) =>
+    props.darkmode ? "difference" : "normal"};
+  transition: all 0.2s ease;
   overflow: hidden;
 `;
 export const MessegeViewHeader = styled.div`
@@ -181,10 +226,16 @@ export const MessegeViewHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.2s ease;
   width: 100%;
-  border-left: 1px solid #e7e2de;
+  color: ${(props) => (props.darkmode ? "#fff" : "#222")};
+  border-left: ${(props) =>
+    props.darkmode
+      ? `1px solid ${darkmodeBgColor}`
+      : "1px solid #e7e2de"}; //#e7e2de
   height: 70px;
-  background-color: #f1ebe7;
+  background-color: ${(props) =>
+    props.darkmode ? secondaryColor : "#f1ebe7"}; //#f1ebe7
   box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
   top: 0;
   padding: 0 20px;
@@ -201,12 +252,14 @@ export const ChatPage = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   scroll-behavior: smooth;
+  transition: all 0.2s ease;
   &::-webkit-scrollbar {
     width: 10px;
   }
 
   &::-webkit-scrollbar-track {
-    background: #f5f0ebcc;
+    background: ${(props) => (props.darkmode ? secondaryColor : "#f5f0ebcc")};
+    transition: all 0.2s ease;
   }
 
   &::-webkit-scrollbar-thumb {
@@ -220,18 +273,27 @@ export const ChatPage = styled.div`
 `;
 
 export const MessegeWrapper = styled.div`
+  animation: 1s ${FadeIn};
   position: relative;
   margin: 40px 10px;
-  box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.2);
+  box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.15);
   padding: 5px 10px 5px 10px;
   border-radius: 5px;
   line-height: 20px;
-  text-align: justify;
+  transition: all 0.2s ease;
+  text-align: left;
   border-top-right-radius: ${(props) => !props.isOpponent && 0};
   border-top-left-radius: ${(props) => props.isOpponent && 0};
   margin-left: ${(props) => (props.isOpponent ? "10px" : "auto")} !important;
-  background-color: ${(props) => (props.isOpponent ? "#F2F2F2" : "#DCF8C6")};
-  color: #222;
+  background-color: ${(props) =>
+    props.isOpponent
+      ? props.darkmode
+        ? secondaryColor
+        : "#fff"
+      : props.darkmode
+      ? darkmodeBgColor
+      : "#DCF8C6"};
+  color: ${(props) => (props.darkmode ? "#f2f2f2" : "#222")};
   display: flex;
   justify-content: space-between;
   flex-direction: ${(props) => (props.isOpponent ? "row-reverse" : "row")};
@@ -239,7 +301,7 @@ export const MessegeWrapper = styled.div`
   width: fit-content;
   span {
     font-size: 0.7rem;
-    color: #555;
+    color: ${(props) => (props.darkmode ? "#cfcfcf" : "#555")};
     margin: ${(props) => (props.isOpponent ? "0 5px 0 0" : "0 0 0 5px")};
     font-style: normal !important;
   }
@@ -248,16 +310,23 @@ export const MessegeWrapper = styled.div`
   &::after {
     content: " ";
     position: absolute;
-    right: ${(props) => !props.isOpponent && "-9px"};
-    left: ${(props) => props.isOpponent && "-9px"};
+    transition: all 0.2s ease;
+    right: ${(props) => !props.isOpponent && "-8px"};
+    left: ${(props) => props.isOpponent && "-8px"};
     bottom: calc(100% - 9px);
     border-top: 0px solid transparent;
     border-right: ${(props) =>
-      !props.isOpponent ? "none" : "9px solid #F2F2F2"};
+      !props.isOpponent
+        ? "none"
+        : `9px solid ${props.darkmode ? secondaryColor : "#fff"}`};
     border-left: ${(props) =>
-      props.isOpponent ? "none" : "9px solid #DCF8C6"};
+      props.isOpponent
+        ? "none"
+        : `9px solid ${
+            props.darkmode ? darkmodeBgColor : "#DCF8C6"
+          }`}; //#DCF8C6
     border-bottom: 9px solid transparent;
-    filter: drop-shadow(0px 1px 1px rgba(100, 100, 100, 0.2));
+    filter: drop-shadow(0px 1px 1px rgba(100, 100, 100, 0.15));
   }
 `;
 
@@ -273,9 +342,10 @@ export const ChatHeaderToolWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.2s ease;
   > svg {
     font-size: 1.3rem;
-    color: #128c7e;
+    color: ${(props) => (props.darkmode ? "#fff" : "#128c7e")};
     cursor: pointer;
     &:not(:nth-child(1)) {
       margin-left: 30px;
@@ -291,12 +361,12 @@ export const SideMenuWrapper = styled.div`
   width: 400px;
   max-width: 100%;
   position: fixed;
-  border-left: 1px solid #e0e0e0;
+  border-left: ${(props) =>
+    props.darkmode ? `1px solid ${secondaryColor}` : "1px solid #e0e0e0"};
   top: 0;
   right: 0;
   height: 100%;
-  background-color: #fff;
-  border-right: 1px solid #e0e0e0;
+  background-color: ${(props) => (props.darkmode ? darkmodeBgColor : "#fff")};
   transition: all 0.5s ease-in-out;
   transform: ${(props) =>
     !props.messegeSearchMode ? "translateX(0)" : "translateX(100%)"};
@@ -308,11 +378,13 @@ export const SideMenuWrapper = styled.div`
 `;
 
 export const SidePanelInput = styled.input`
+  animation: 1.3s ${FadeInRight};
   flex: 0.94;
   height: 34px;
-  color: #222;
+  color: ${(props) => (props.darkmode ? "#f2f2f2" : "#222")};
   border: none;
-  border-bottom: 1px solid #dadada;
+  border-bottom: ${(props) =>
+    props.darkmode ? `1px solid #777` : "1px solid #dadada"} !important;
   outline: none;
   padding: 0 5px;
   font-size: 0.9rem;
@@ -328,7 +400,9 @@ export const MessegeViewInput = styled.input`
   border: none;
   margin-left: auto;
   margin-right: 50px;
-  border-bottom: 1px solid #dadada;
+  color: ${(props) => (props.darkmode ? "#f2f2f2" : "#222")};
+  border-bottom: ${(props) =>
+    props.darkmode ? `1px solid ${secondaryColor}` : "1px solid #dadada"};
   outline: none;
   padding: 0 5px;
   font-size: 0.9rem;
@@ -339,6 +413,7 @@ export const MessegeViewInput = styled.input`
 `;
 
 export const ContextClick = styled.div`
+  animation: 0.5s ${FadeIn};
   position: absolute;
   padding: 4px;
   width: 100px;
@@ -346,7 +421,8 @@ export const ContextClick = styled.div`
   bottom: calc(100% + 5px);
   right: ${(props) => !props.isOpponent && 0};
   left: ${(props) => props.isOpponent && 0};
-  background-color: #22caae;
+  background-color: ${(props) =>
+    props.darkmode ? darkmodeBgColor : " #22caae"};
   color: #fff;
   border-radius: 5px;
   display: flex;
@@ -358,18 +434,21 @@ export const ContextClick = styled.div`
   cursor: pointer;
   box-shadow: 0px 0px 1px rgba(100, 100, 100, 0.2);
   &:hover {
-    background-color: #1cb399;
+    background-color: ${(props) =>
+      props.darkmode ? secondaryColor : " #1cb399"};
   }
 `;
 
 export const UndoWrapper = styled.div`
+  animation: 1s ${FadeIn};
   position: absolute;
   padding: 5px;
   width: 80px;
   top: calc(100% + 5px);
   right: ${(props) => !props.isOpponent && "-7px"};
   left: ${(props) => props.isOpponent && "-7px"};
-  background-color: #16a191;
+  background-color: ${(props) =>
+    props.darkmode ? darkmodeBgColor : " #16a191"};
   border-radius: 5px;
   display: flex;
 
@@ -385,7 +464,8 @@ export const UndoWrapper = styled.div`
     margin-left: 7px;
   }
   &:hover {
-    background-color: #128c7e;
+    background-color: ${(props) =>
+      props.darkmode ? secondaryColor : " #128c7e"};
   }
 
   small {
@@ -397,13 +477,15 @@ export const UndoWrapper = styled.div`
 `;
 
 export const ManageMenuWrapper = styled.div`
+  animation: 0.5s ${FadeIn};
   width: auto;
   height: auto;
   position: absolute;
   z-index: 999;
   top: 50px;
   right: 30px;
-  background-color: #fff;
+  background-color: ${(props) => (props.darkmode ? darkmodeBgColor : "#fff")};
+  transition: all 0.2s ease;
   border-radius: 5px;
   box-shadow: 0px 0px 3px rgba(100, 100, 100, 0.2);
   display: flex;
@@ -413,24 +495,26 @@ export const ManageMenuWrapper = styled.div`
   overflow: hidden;
   span {
     font-size: 0.93rem;
-    color: #222;
+    color: ${(props) => (props.darkmode ? "#fff" : "#222")};
     width: 100%;
     padding: 5px 10px;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.3s ease;
     cursor: pointer;
     &:hover {
-      background-color: #e2e2e2;
+      background-color: ${(props) =>
+        props.darkmode ? secondaryColor : "#e2e2e2"};
     }
   }
 `;
 
 export const HearingModal = styled.div`
+  animation: 1s ${FadeIn};
   position: absolute;
   width: 400px;
   max-width: 95%;
   margin: 0 auto;
   height: 230px;
-  background-color: #128c7e;
+  background-color: rgba(18, 140, 126, 0.75);
   left: 50%;
   top: 50%;
   z-index: 9999;
@@ -504,14 +588,15 @@ export const SideMenuHeader = styled.div`
   justify-content: center;
   color: #aaa;
   align-items: center;
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: ${(props) =>
+    props.darkmode ? `1px solid ${secondaryColor}` : "1px solid #e2e2e2"};
   svg {
     position: absolute;
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 1.3rem;
-    color: #444;
+    color: ${(props) => (props.darkmode ? "#f2f2f2" : "#444")};
     cursor: pointer;
   }
 `;
@@ -519,9 +604,10 @@ export const SideMenuHeader = styled.div`
 export const SideMenuInput = styled.input`
   width: 90%;
   height: 35px;
-  color: #222;
+  color: ${(props) => (props.darkmode ? "#f2f2f2" : "#222")};
   border: none;
-  border-bottom: 1px solid #dadada;
+  border-bottom: ${(props) =>
+    props.darkmode ? `1px solid ${secondaryColor}` : "1px solid #dadada"};
   outline: none;
   padding: 0 5px;
   margin-top: 20px;

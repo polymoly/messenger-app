@@ -1,51 +1,35 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ChatInput, MessegeInputWrapper } from "./StyledComponents";
-import ReactDOM from "react-dom";
 
 import {
   MdSend,
   MdMic,
   MdSentimentSatisfied,
-  MdAttachFile,
   MdMicOff,
+  MdSentimentDissatisfied,
 } from "react-icons/md";
+import Picker from "emoji-picker-react";
 import { DataContext } from "./Context";
-export default function MessegeInput({ onClick, handleListening }) {
 
+export default function MessegeInput({ onClick, handleListening, id }) {
   const [val, setVal] = useState("");
   const [Record, setRecord] = useState(false);
   const inputRef = useRef();
-  const optimize = useCallback(() => {
-    setVal("");
-    onClick(val);
-  }, [onClick, val]);
-  // function array_move(arr, user_index) {
-  //   arr.splice(0, 0, arr.splice(user_index, 1)[0]);
-  //   return arr;
-  // }
+  const [isEmoji, setIsEmoji] = useState(false);
+  const {darkmode} = useContext(DataContext);
+
   useEffect(() => {
     if (val.length > 1) {
       setVal(val.replace(/^\w/, (c) => c.toUpperCase()));
     }
-    window.addEventListener("keypress", (e) => {
-      if (
-        e.key === "Enter" &&
-        document.activeElement === ReactDOM.findDOMNode(inputRef.current) &&
-        val
-      ) {
-        optimize();
-      
-      }
-    });
-    return window.removeEventListener("keypress", optimize);
-  }, [optimize, val]);
-
+  }, [val]);
+  const handleKeypress = (e) => {
+    if (e.key === "Enter" && val) {
+      setVal("");
+      onClick(val);
+      setIsEmoji(false);
+    }
+  };
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SpeechRecognition();
@@ -68,11 +52,10 @@ export default function MessegeInput({ onClick, handleListening }) {
   const resultOfSpeech = (event) => {
     const current = event.resultIndex;
     const transcript = event.results[current][0].transcript;
-    if(transcript.length !== 0){
+    if (transcript.length !== 0) {
       setRecord(false);
     }
     setVal(transcript);
-    
   };
 
   useEffect(() => {
@@ -80,23 +63,34 @@ export default function MessegeInput({ onClick, handleListening }) {
   });
   const handleChange = (e) => {
     setVal(e.target.value);
+    setIsEmoji(false);
   };
   const handleSendMessage = () => {
     if (val) {
-      optimize();
+      setVal("");
+      onClick(val);
+      setIsEmoji(false);
     }
-
+  };
+  const onEmojiClick = (event, emojiObject) => {
+    setVal(emojiObject.emoji);
   };
 
   return (
-    <MessegeInputWrapper value={val}>
-      <MdSentimentSatisfied />
-      <MdAttachFile />
+    <MessegeInputWrapper value={val} darkmode={darkmode}>
+      {!isEmoji && (
+        <MdSentimentSatisfied onClick={() => setIsEmoji(!isEmoji)} />
+      )}
+      {isEmoji && (
+        <MdSentimentDissatisfied onClick={() => setIsEmoji(!isEmoji)} />
+      )}
       <ChatInput
         ref={inputRef}
         value={val}
         onChange={handleChange}
+        onKeyPress={handleKeypress}
         placeholder="Type a message.."
+        darkmode={darkmode}
       />
       {!val ? (
         !Record ? (
@@ -106,6 +100,9 @@ export default function MessegeInput({ onClick, handleListening }) {
         )
       ) : (
         <MdSend onClick={handleSendMessage} />
+      )}
+      {isEmoji && (
+        <Picker onEmojiClick={onEmojiClick} disableAutoFocus={true} />
       )}
     </MessegeInputWrapper>
   );

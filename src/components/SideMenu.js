@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   SideMenuWrapper,
   SideMenuHeader,
@@ -6,10 +6,17 @@ import {
   FilterSearch,
 } from "./StyledComponents";
 import * as fa from "react-icons/fa";
+import { DataContext } from "./Context";
 
-export default function SideMenu({ messegeSearchMode, title, onClick, chats }) {
+export default function SideMenu({
+  messegeSearchMode,
+  title,
+  onClick,
+  chats,
+  whatMenu,
+}) {
   const [value, setValue] = useState("");
-
+  const { darkmode } = useContext(DataContext);
   const handleMessageSearch = (e) => {
     setValue(e.target.value);
   };
@@ -18,12 +25,13 @@ export default function SideMenu({ messegeSearchMode, title, onClick, chats }) {
   );
 
   return (
-    <SideMenuWrapper messegeSearchMode={messegeSearchMode}>
-      <SideMenuHeader>
+    <SideMenuWrapper messegeSearchMode={messegeSearchMode} darkmode={darkmode}>
+      <SideMenuHeader darkmode={darkmode}>
         <fa.FaTimes onClick={onClick} />
         Search Messages
       </SideMenuHeader>
       <SideMenuInput
+        darkmode={darkmode}
         type="text"
         placeholder="Search..."
         value={value}

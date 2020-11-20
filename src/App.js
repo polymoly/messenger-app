@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import ChatView from "./components/ChatView";
-import SideMenu from "./components/SideMenu";
 import SidePanel from "./components/SidePanel";
 import { Wrapper } from "./components/StyledComponents";
 import { DataContext } from "./components/Context";
@@ -8,11 +7,17 @@ import { DataContext } from "./components/Context";
 function App() {
   const [id, setId] = useState(null);
   const [data, setData] = useState([]);
-  const [gender,setGender] = useState(null);
-  const onClick = (id,gender) => {
+  const [gender, setGender] = useState(null);
+  const [darkmode, setDarkmode] = useState(false);
+
+  // function array_move(arr, user_index, newIndex) {
+  //   arr.splice(newIndex, 0, arr.splice(user_index, 1)[0]);
+  //   return arr;
+  // }
+  const onClick = (id, gender) => {
     setId(id);
     setGender(gender);
-    // setIndex(index);
+    // const contactSelected = data.findIndex((contact) => contact.id === id);
   };
 
   useEffect(() => {
@@ -27,12 +32,14 @@ function App() {
         });
     }
   }, []);
-
+  const handleTheme = () => {
+    setDarkmode(!darkmode);
+  };
   return (
-    <DataContext.Provider value={data}>
+    <DataContext.Provider value={{ data,darkmode }}>
       <Wrapper>
         <SidePanel onClick={onClick} />
-        <ChatView id={id} gender={gender}  />
+        <ChatView id={id} gender={gender} onClick={handleTheme} />
       </Wrapper>
     </DataContext.Provider>
   );

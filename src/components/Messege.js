@@ -1,11 +1,19 @@
-import React, { createRef, useCallback, useEffect, useState } from "react";
+import React, {
+  createRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { MessegeWrapper, ContextClick, UndoWrapper } from "./StyledComponents";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-
+import { Fade } from "react-reveal";
+import { DataContext } from "./Context";
 function Messege({ message, isOpponent, time }) {
   const [isRightclick, setIsRighClick] = useState(false);
   const [undo, setUndo] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const { darkmode } = useContext(DataContext);
   const contextRef = createRef();
   const handleRightClick = (e) => {
     e.preventDefault();
@@ -58,6 +66,7 @@ function Messege({ message, isOpponent, time }) {
   };
   return (
     <MessegeWrapper
+      darkmode={darkmode}
       ref={contextRef}
       onContextMenu={handleRightClick}
       isOpponent={isOpponent}
@@ -65,6 +74,7 @@ function Messege({ message, isOpponent, time }) {
     >
       {isRightclick && (
         <ContextClick
+          darkmode={darkmode}
           isOpponent={isOpponent}
           isRightclick={isRightclick}
           onClick={handleDelete}
@@ -79,8 +89,13 @@ function Messege({ message, isOpponent, time }) {
         : "This message was deleted"}
       <span>{time}</span>
       {undo && (
-        <UndoWrapper isOpponent={isOpponent} onClick={handleUndo}>
+        <UndoWrapper
+          isOpponent={isOpponent}
+          onClick={handleUndo}
+          darkmode={darkmode}
+        >
           <CountdownCircleTimer
+
             size={25}
             strokeWidth={3}
             trailColor="transparent"

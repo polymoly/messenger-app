@@ -1,4 +1,4 @@
-import React, { createRef, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import {
   Avatar,
   ChatHeaderToolWrapper,
@@ -7,7 +7,6 @@ import {
   MessegeViewHeader,
   MessegeViewWrapper,
   ViewUserTitle,
-  MessegeViewInput,
   ManageMenuWrapper,
   HearingModal,
   Ellipsis,
@@ -15,8 +14,8 @@ import {
 import * as fa from "react-icons/fa";
 import { MdHearing } from "react-icons/md";
 import Messege from "./Messege";
-import ReactDOM from "react-dom";
 import SideMenu from "./SideMenu";
+import { DataContext } from "./Context";
 
 export default function MessegeView({
   title,
@@ -24,12 +23,11 @@ export default function MessegeView({
   record,
   isOpen,
   gender,
+  onClick,
 }) {
-  const chatRef = createRef();
-
   const [messegeSearchMode, setMessegeSearchMode] = useState(true);
   const [manageMenu, setManageMenu] = useState(false);
-
+  const { darkmode } = useContext(DataContext);
   // useEffect(() => {
   //   chatRef.current.scrollTo(200, chatRef.current.scrollHeight);
   // }, [chatRef]);
@@ -44,27 +42,29 @@ export default function MessegeView({
   const handleClearWindow = () => {
     setManageMenu(false);
   };
-  const handleMenu = () => {
+  const handleMenu = (e) => {
     setMessegeSearchMode(!messegeSearchMode);
     isOpen(messegeSearchMode);
   };
   return (
-    <MessegeViewWrapper>
-      <MessegeViewHeader>
-        <ViewUserTitle>
+    <MessegeViewWrapper darkmode={darkmode}>
+      <MessegeViewHeader darkmode={darkmode}>
+        <ViewUserTitle onClick={handleMenu}>
           <Avatar gender={gender} />
           <ChatTitle>{title}</ChatTitle>
         </ViewUserTitle>
         {/* {messegeSearchMode && (
           <MessegeViewInput placeholder="Search in messages..." />
         )} */}
-        <ChatHeaderToolWrapper>
+        <ChatHeaderToolWrapper darkmode={darkmode}>
+          {!darkmode && <fa.FaMoon onClick={onClick} />}
+          {darkmode && <fa.FaSun onClick={onClick} />}
           <fa.FaSearch onClick={handleMenu} />
 
           <fa.FaEllipsisV onClick={() => setManageMenu(!manageMenu)} />
         </ChatHeaderToolWrapper>
         {manageMenu && (
-          <ManageMenuWrapper>
+          <ManageMenuWrapper darkmode={darkmode}>
             <span>Clear chat history</span>
             <span>Delete this contact</span>
           </ManageMenuWrapper>
@@ -84,6 +84,7 @@ export default function MessegeView({
         </HearingModal>
       )}
       <ChatPage
+        darkmode={darkmode}
         // ref={chatRef}
         onClick={handleClearWindow}
         onContextMenu={rightClickHistory}
@@ -100,8 +101,12 @@ export default function MessegeView({
           );
         })}
       </ChatPage>
-      <SideMenu messegeSearchMode={messegeSearchMode} title={title} onClick={handleMenu} chats={chats} />
-     
+      <SideMenu
+        messegeSearchMode={messegeSearchMode}
+        title={title}
+        onClick={handleMenu}
+        chats={chats}
+      />
     </MessegeViewWrapper>
   );
 }

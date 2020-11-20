@@ -1,18 +1,20 @@
-import React, { useContext, useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { DataContext } from "./Context";
 
 import MessegeInput from "./MessegeInput";
 import MessegeView from "./MessegeView";
 import { ChatViewWrapper } from "./StyledComponents";
 
-export default function ChatView({ id, gender }) {
+export default function ChatView({ id, gender, onClick }) {
   const [chat, setChat] = useState("");
   const [info, setInfo] = useState([]);
   const [record, setRecord] = useState(true);
-  const [menu ,setMenu] = useState(false);
+  const [menu, setMenu] = useState(false);
+  const { darkmode } = useContext(DataContext);
   const newChat = {
     id: "4",
     messege: chat,
-    isOpponent: true,
+    isOpponent: false,
     messegeTime: new Date().toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
@@ -56,16 +58,23 @@ export default function ChatView({ id, gender }) {
   const handleMenuOpen = (value) => {
     console.log(value);
     setMenu(value);
-  }
+  };
   return (
-    <ChatViewWrapper menu={menu}>
+    <ChatViewWrapper menu={menu} darkmode={darkmode}>
       {info.length !== 0 && (
-        <MessegeView title={info[1]} chats={info[0]} record={record} chat={chat} isOpen={handleMenuOpen} gender={gender} />
+        <MessegeView
+          title={info[1]}
+          chats={info[0]}
+          record={record}
+          chat={chat}
+          onClick={onClick}
+          isOpen={handleMenuOpen}
+          gender={gender}
+        />
       )}
       {info.length !== 0 && (
         <MessegeInput
           id={id}
-          
           onClick={handleChat}
           handleListening={handleListening}
         />

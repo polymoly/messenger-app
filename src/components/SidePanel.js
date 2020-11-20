@@ -1,27 +1,27 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Chat from "./Chat";
-import SideMenu from "./SideMenu";
 import SidePanelSearchBar from "./SidePanelSearchBar";
 import { SideWrapper } from "./StyledComponents";
 import { DataContext } from "./Context";
-
-export default function SidePanel({ onClick, info }) {
-  const data = useContext(DataContext);
+export default function SidePanel({ onClick }) {
+  const { data,darkmode } = useContext(DataContext);
 
   return (
-    <SideWrapper>
+    <SideWrapper darkmode={darkmode}>
       <SidePanelSearchBar />
       {data.map((dataInfo) => {
         const chats = [...dataInfo.chats];
         const lastMessege = { ...chats[chats.length - 1] };
-        console.log(lastMessege);
+        // console.log(lastMessege);
         return (
           data && (
             <Chat
               key={dataInfo.id}
+              id={dataInfo.id}
               title={dataInfo.name}
               gender={dataInfo.gender}
               time={lastMessege.messegeTime}
+              // data={data}
               lastMessege={
                 lastMessege.messege.length > 50
                   ? `${lastMessege.messege.substring(0, 50)}...`

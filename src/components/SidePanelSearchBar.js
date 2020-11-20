@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   InputSearch,
   SideSearchWrapper,
   SidePanelInput,
 } from "./StyledComponents";
 import * as fa from "react-icons/fa";
+import { DataContext } from "./Context";
 
 export default function SidePanelSearchBar({ onClickSideMenu }) {
   const [searchMode, setSearchMode] = useState(false);
   const [value, setValue] = useState("");
+  const {darkmode} = useContext(DataContext);
   const handleChangeMode = () => {
     setSearchMode(!searchMode);
   };
@@ -17,7 +19,7 @@ export default function SidePanelSearchBar({ onClickSideMenu }) {
     setValue(e.target.value);
   };
   return (
-    <SideSearchWrapper>
+    <SideSearchWrapper darkmode={darkmode}>
       {!searchMode ? (
         <fa.FaBars onClick={onClickSideMenu} />
       ) : (
@@ -30,6 +32,7 @@ export default function SidePanelSearchBar({ onClickSideMenu }) {
           placeholder="Search in contacts..."
           value={value}
           onChange={handleContactSearch}
+          darkmode={darkmode}
         />
       )}
       {!searchMode && <fa.FaSearch onClick={handleChangeMode} />}
