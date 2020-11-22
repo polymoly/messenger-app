@@ -3,13 +3,20 @@ import { DataContext } from "./Context";
 
 import MessegeInput from "./MessegeInput";
 import MessegeView from "./MessegeView";
-import { ChatViewWrapper } from "./StyledComponents";
-
+import {
+  ChatViewWrapper,
+  ReplyWrapper,
+  ReplyMessege,
+} from "./StyledComponents";
+import * as fa from "react-icons/fa";
 export default function ChatView({ id, gender, onClick }) {
   const [chat, setChat] = useState("");
   const [info, setInfo] = useState([]);
   const [record, setRecord] = useState(true);
   const [menu, setMenu] = useState(false);
+  const [reply, setReply] = useState(false);
+  const [replyMessege, setReplyMessege] = useState("");
+
   const { darkmode } = useContext(DataContext);
   const newChat = {
     id: "4",
@@ -59,10 +66,19 @@ export default function ChatView({ id, gender, onClick }) {
     console.log(value);
     setMenu(value);
   };
+
+  const handleReply = (messege) => {
+    setReply(true);
+    setReplyMessege(messege);
+  };
+  const closeReply = () => {
+    setReply(false);
+  };
   return (
     <ChatViewWrapper menu={menu} darkmode={darkmode}>
       {info.length !== 0 && (
         <MessegeView
+          reply={reply}
           title={info[1]}
           chats={info[0]}
           record={record}
@@ -70,8 +86,20 @@ export default function ChatView({ id, gender, onClick }) {
           onClick={onClick}
           isOpen={handleMenuOpen}
           gender={gender}
+          handleReply={handleReply}
         />
       )}
+      <ReplyWrapper reply={reply}>
+        <ReplyMessege>
+          <span>{info[1]}</span>
+          <span>
+            {replyMessege.length > 180
+              ? `${replyMessege.substring(0, 180)}...`
+              : replyMessege}
+          </span>
+        </ReplyMessege>
+        <fa.FaTimes onClick={closeReply} />
+      </ReplyWrapper>
       {info.length !== 0 && (
         <MessegeInput
           id={id}

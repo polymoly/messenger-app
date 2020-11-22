@@ -5,11 +5,11 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { MessegeWrapper, ContextClick, UndoWrapper } from "./StyledComponents";
+import { MessegeWrapper, ContextClick, UndoWrapper, ReplyMessege } from "./StyledComponents";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import { Fade } from "react-reveal";
+
 import { DataContext } from "./Context";
-function Messege({ message, isOpponent, time }) {
+function Messege({ message, isOpponent, time,handleReply,reply,id }) {
   const [isRightclick, setIsRighClick] = useState(false);
   const [undo, setUndo] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -21,6 +21,7 @@ function Messege({ message, isOpponent, time }) {
     if (e.type === "contextmenu") {
       if (!isDelete) {
         setIsRighClick(true);
+      
       }
     }
   };
@@ -71,19 +72,26 @@ function Messege({ message, isOpponent, time }) {
       onContextMenu={handleRightClick}
       isOpponent={isOpponent}
       isDelete={isDelete}
+      reply={reply}
     >
       {isRightclick && (
         <ContextClick
           darkmode={darkmode}
           isOpponent={isOpponent}
           isRightclick={isRightclick}
-          onClick={handleDelete}
+          
         >
-          Delete message
+          <span onClick={handleDelete}>Delete message</span>
+          <span onClick={handleReply}>Reply message</span>
         </ContextClick>
+
       )}
+      {reply && <ReplyMessege isOpponent={isOpponent}>
+          <span>{!isOpponent ? "You" : 'Alireza'}</span>
+          <span>{message.length > 290 ? `${message.substring(0,290)}...` : message}</span>
+        </ReplyMessege>}
       {!isDelete
-        ? message
+        ? message.length> 600 ? `${message.substring(0,600)}...`  : message 
         : !isOpponent
         ? "You deleted this message"
         : "This message was deleted"}

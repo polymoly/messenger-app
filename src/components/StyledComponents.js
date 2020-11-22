@@ -57,13 +57,13 @@ export const SideWrapper = styled.div`
 
 export const MessegeInputWrapper = styled.div`
   position: absolute;
-  z-index: 2;
+  z-index: 9999;
   width: 100%;
   height: 70px;
   bottom: 0;
   top: auto;
   transition: all 0.2s ease;
-  box-shadow: 0px -1px 2px rgba(100, 100, 100, 0.15);
+  /* box-shadow: 0px -1px 2px rgba(100, 100, 100, 0.15); */
   background-color: ${(props) => (props.darkmode ? secondaryColor : "#f1ebe7")};
   display: flex;
   justify-content: space-between;
@@ -207,7 +207,7 @@ export const InputSearch = styled.div`
 export const MessegeViewWrapper = styled.div`
   position: relative;
   width: 100%;
-  padding: 70px 0;
+  padding: ${(props) => (props.reply ? "140px 0" : "70px 0")};
   height: 100%;
   background-color: #ece5dd;
   background-image: url("./images/bg.png");
@@ -275,13 +275,16 @@ export const ChatPage = styled.div`
 export const MessegeWrapper = styled.div`
   animation: 1s ${FadeIn};
   position: relative;
+  min-width: 45px;
+  max-width: 700px;
   margin: 40px 10px;
   box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.15);
-  padding: 5px 10px 5px 10px;
+  padding: ${(props) =>
+    props.reply ? "5px 10px 20px 10px" : "5px 10px 20px 10px"};
   border-radius: 5px;
   line-height: 20px;
   transition: all 0.2s ease;
-  text-align: left;
+  text-align: justify;
   border-top-right-radius: ${(props) => !props.isOpponent && 0};
   border-top-left-radius: ${(props) => props.isOpponent && 0};
   margin-left: ${(props) => (props.isOpponent ? "10px" : "auto")} !important;
@@ -296,13 +299,17 @@ export const MessegeWrapper = styled.div`
   color: ${(props) => (props.darkmode ? "#f2f2f2" : "#222")};
   display: flex;
   justify-content: space-between;
-  flex-direction: ${(props) => (props.isOpponent ? "row-reverse" : "row")};
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   width: fit-content;
-  span {
+  > span {
+    position: absolute;
     font-size: 0.7rem;
+    bottom: 0;
+    right: 10px;
+
     color: ${(props) => (props.darkmode ? "#cfcfcf" : "#555")};
-    margin: ${(props) => (props.isOpponent ? "0 5px 0 0" : "0 0 0 5px")};
+    /* margin: ${(props) => (props.isOpponent ? "0 5px 0 0" : "0 0 0 5px")}; */
     font-style: normal !important;
   }
   font-style: ${(props) => (props.isDelete ? "italic" : "normal")};
@@ -415,27 +422,33 @@ export const MessegeViewInput = styled.input`
 export const ContextClick = styled.div`
   animation: 0.5s ${FadeIn};
   position: absolute;
-  padding: 4px;
-  width: 100px;
+  overflow: hidden;
+  width: 110px;
   box-shadow: 0px 1px 4px rgba(100, 100, 100, 0.6);
-  bottom: calc(100% + 5px);
+  top: calc(100% + 4px);
   right: ${(props) => !props.isOpponent && 0};
   left: ${(props) => props.isOpponent && 0};
   background-color: ${(props) =>
-    props.darkmode ? darkmodeBgColor : " #22caae"};
-  color: #fff;
+    props.darkmode ? darkmodeBgColor : " #f2f2f2"};
   border-radius: 5px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
-  font-size: 0.8rem;
-  font-family: "Roboto";
   transition: all 0.2s ease-in-out;
-  cursor: pointer;
   box-shadow: 0px 0px 1px rgba(100, 100, 100, 0.2);
-  &:hover {
-    background-color: ${(props) =>
-      props.darkmode ? secondaryColor : " #1cb399"};
+  span {
+    color: #333;
+    font-size: 0.8rem;
+    padding: 3px 8px;
+    width: 100%;
+    margin: 0;
+    /* background-color:#222; */
+    cursor: pointer;
+    &:hover {
+      background-color: ${(props) =>
+        props.darkmode ? secondaryColor : " #e7e7e7"};
+    }
   }
 `;
 
@@ -626,4 +639,50 @@ export const FilterSearch = styled.p`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+export const ReplyWrapper = styled.div`
+  width: 100%;
+  height: 70px;
+  background-color: #f1ebe7;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+  padding: 4px 80px 0 40px;
+
+  transform: ${(props) => (props.reply ? "translateY(-100%)" : "none")};
+  svg {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    cursor: pointer;
+  }
+`;
+
+export const ReplyMessege = styled.div`
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 5px 10px;
+  width: 100%;
+  height: 90%;
+  margin: 5px 0;
+  background-color: rgba(110, 110, 110, 0.11);
+  border-left: ${(props) =>
+    props.isOpponent ? "4px solid #34b7f1" : "4px solid #b819d8"};
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+  font-size: 0.9rem;
+  span {
+    &:first-child {
+      color: ${(props) => (props.isOpponent ? "#34b7f1" : "#b819d8")};
+    }
+  }
 `;

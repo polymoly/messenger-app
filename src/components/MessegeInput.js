@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { ChatInput, MessegeInputWrapper } from "./StyledComponents";
+import { ChatInput, MessegeInputWrapper,ReplayWrapper } from "./StyledComponents";
 
 import {
   MdSend,
@@ -84,6 +84,7 @@ export default function MessegeInput({ onClick, handleListening, id }) {
       {isEmoji && (
         <MdSentimentDissatisfied onClick={() => setIsEmoji(!isEmoji)} />
       )}
+      
       <ChatInput
         ref={inputRef}
         value={val}
@@ -92,6 +93,7 @@ export default function MessegeInput({ onClick, handleListening, id }) {
         placeholder="Type a message.."
         darkmode={darkmode}
       />
+      
       {!val ? (
         !Record ? (
           <MdMic onClick={handleRecord} />

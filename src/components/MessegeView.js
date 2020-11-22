@@ -24,6 +24,8 @@ export default function MessegeView({
   isOpen,
   gender,
   onClick,
+  handleReply,
+  reply
 }) {
   const [messegeSearchMode, setMessegeSearchMode] = useState(true);
   const [manageMenu, setManageMenu] = useState(false);
@@ -47,7 +49,7 @@ export default function MessegeView({
     isOpen(messegeSearchMode);
   };
   return (
-    <MessegeViewWrapper darkmode={darkmode}>
+    <MessegeViewWrapper darkmode={darkmode} reply={reply}>
       <MessegeViewHeader darkmode={darkmode}>
         <ViewUserTitle onClick={handleMenu}>
           <Avatar gender={gender} />
@@ -96,6 +98,8 @@ export default function MessegeView({
               message={chat.messege}
               time={chat.messegeTime}
               isOpponent={chat.isOpponent}
+              handleReply={() => handleReply(chat.messege)}
+              reply={reply}
               id={chat.id}
             />
           );
