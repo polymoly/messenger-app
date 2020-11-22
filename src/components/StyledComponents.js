@@ -271,16 +271,21 @@ export const ChatPage = styled.div`
     background: #128c7e;
   }
 `;
-
+export const MessageContainer = styled.div`
+  margin: 40px 10px;
+`;
 export const MessegeWrapper = styled.div`
   animation: 1s ${FadeIn};
   position: relative;
   min-width: 45px;
   max-width: 700px;
-  margin: 40px 10px;
   box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.15);
   padding: ${(props) =>
-    props.reply ? "5px 10px 20px 10px" : "5px 10px 20px 10px"};
+    props.reply
+      ? "5px 10px 20px 10px"
+      : props.message.length !== 0
+      ? "5px 70px 10px 10px"
+      : "5px 70px 20px 10px"};
   border-radius: 5px;
   line-height: 20px;
   transition: all 0.2s ease;
@@ -307,10 +312,16 @@ export const MessegeWrapper = styled.div`
     font-size: 0.7rem;
     bottom: 0;
     right: 10px;
-
     color: ${(props) => (props.darkmode ? "#cfcfcf" : "#555")};
     /* margin: ${(props) => (props.isOpponent ? "0 5px 0 0" : "0 0 0 5px")}; */
     font-style: normal !important;
+    display: flex;
+    align-items: center;
+    svg {
+      margin-right: 2px;
+      font-size: 0.62rem;
+      color: #999;
+    }
   }
   font-style: ${(props) => (props.isDelete ? "italic" : "normal")};
   font-size: ${(props) => (props.isDelete ? "14px" : "15px")};
@@ -381,6 +392,162 @@ export const SideMenuWrapper = styled.div`
     margin-top: 200px;
     color: #aaa;
     font-size: 0.9rem;
+  }
+`;
+
+export const SidePanelMenu = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  width: 500px;
+  max-width: 100%;
+  position: fixed;
+  /* border-right: ${(props) =>
+    props.darkmode ? `1px solid ${secondaryColor}` : "1px solid #e0e0e0"}; */
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #fff;
+  transform: ${(props) =>
+    props.starMenu ? "translateX(0)" : "translateX(-100%)"};
+  transition: all 0.5s ease-in-out;
+  z-index: 99;
+`;
+
+export const SidePanelMenuHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 100px 0px 10px 20px;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 150px;
+  background-color: #128c7e;
+  font-size: 1.2rem;
+  color: #fff;
+  span {
+    flex-grow: 1;
+  }
+  svg {
+    margin-right: 30px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    &:nth-child(3) {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      color: #fff;
+    }
+  }
+`;
+export const SidePanelBody = styled.div`
+  position: relative;
+  width: 100%;
+  height: calc(100% - 150px);
+  background-color: rgba(241, 240, 228, 0.8);
+  overflow-y: auto;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: "#f1ebe7";
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #16a191;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #128c7e;
+  }
+`;
+
+export const StarredMessageWrapper = styled.div`
+  position: relative;
+  width: 500px;
+
+  height: auto;
+  /* overflow: hidden; */
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-bottom: 1px solid #e4e4e4;
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+export const UserStarred = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-left: 15px;
+  font-size: 0.85rem;
+`;
+export const UserInfo = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    margin-left: 5px;
+  }
+  > div {
+    min-height: 40px !important;
+    min-width: 40px !important;
+  }
+`;
+export const StarredTime = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #aaa;
+  margin-right: 5px;
+  span {
+    margin-right: 5px;
+  }
+  svg {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    &:hover {
+      color: #222;
+    }
+  }
+`;
+
+export const UnstarAllBtn = styled.div`
+  position: absolute;
+  bottom: 18px;
+  color: #333;
+  right: 30px;
+  background-color: #fff;
+  border-radius: 3px;
+  padding: 3px 6px;
+  font-size: 1rem;
+  animation: 0.5s ${FadeIn};
+  box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.15);
+  cursor:pointer;
+  &:hover{
+    background-color:#e4e4e4;
+  }
+`;
+export const StarMessage = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 10px 0 10px;
+  svg {
+    color: #ccc;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    &:hover {
+      color: #333;
+    }
   }
 `;
 
@@ -527,7 +694,7 @@ export const ManageMenuWrapper = styled.div`
 export const HearingModal = styled.div`
   animation: 1s ${FadeIn};
   position: absolute;
-  text-align:center;
+  text-align: center;
   width: 400px;
   max-width: 95%;
   margin: 0 auto;
@@ -714,5 +881,5 @@ export const ReplyMessege = styled.div`
 export const ReadMore = styled.span`
   color: #34b7f1;
   cursor: pointer;
-  margin-left:2px;
+  margin-left: 2px;
 `;

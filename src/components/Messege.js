@@ -13,6 +13,7 @@ import {
   ReadMore
 } from "./StyledComponents";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import * as fa from "react-icons/fa";
 
 import { DataContext } from "./Context";
 function Messege({ message, isOpponent, time, handleReply, reply, id }) {
@@ -20,6 +21,7 @@ function Messege({ message, isOpponent, time, handleReply, reply, id }) {
   const [undo, setUndo] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [isCollapse, setIsCollapse] = useState(false);
+  const [star,setStar] = useState(false);
   const { darkmode } = useContext(DataContext);
   const contextRef = createRef();
   const handleRightClick = (e) => {
@@ -75,6 +77,9 @@ function Messege({ message, isOpponent, time, handleReply, reply, id }) {
   const handleCollapse =() => {
     setIsCollapse(true)
   }
+  const handleStar = () => {
+    setStar(!star);
+  }
   return (
     <MessegeWrapper
       darkmode={darkmode}
@@ -83,6 +88,7 @@ function Messege({ message, isOpponent, time, handleReply, reply, id }) {
       isOpponent={isOpponent}
       isDelete={isDelete}
       reply={reply}
+      message={message}
     >
       {isRightclick && (
         <ContextClick
@@ -92,6 +98,7 @@ function Messege({ message, isOpponent, time, handleReply, reply, id }) {
         >
           <span onClick={handleDelete}>Delete message</span>
           <span onClick={handleReply}>Reply message</span>
+          <span onClick={() => handleStar(id)} >{star ? "Unstar" : 'Star'} message</span>
         </ContextClick>
       )}
       {reply && (
@@ -119,7 +126,7 @@ function Messege({ message, isOpponent, time, handleReply, reply, id }) {
       ) : (
         "This message was deleted"
       )}
-      <span>{time}</span>
+      <span>{star ? <fa.FaStar /> : ''}{time}</span>
       {undo && (
         <UndoWrapper
           isOpponent={isOpponent}

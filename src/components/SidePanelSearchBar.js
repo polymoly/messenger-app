@@ -6,11 +6,15 @@ import {
 } from "./StyledComponents";
 import * as fa from "react-icons/fa";
 import { DataContext } from "./Context";
+import ReactDOM from "react-dom";
+import SideMenu from "./SideMenu";
+import SidePanelOffMenu from "./SidePanelOffMenu";
 
-export default function SidePanelSearchBar({ onClickSideMenu }) {
+export default function SidePanelSearchBar() {
   const [searchMode, setSearchMode] = useState(false);
+  const [starMenu, setStarMenu] = useState(false);
   const [value, setValue] = useState("");
-  const {darkmode} = useContext(DataContext);
+  const { darkmode } = useContext(DataContext);
   const handleChangeMode = () => {
     setSearchMode(!searchMode);
   };
@@ -18,6 +22,9 @@ export default function SidePanelSearchBar({ onClickSideMenu }) {
   const handleContactSearch = (e) => {
     setValue(e.target.value);
   };
+  const onClickSideMenu = () => {
+    setStarMenu(!starMenu);
+  }
   return (
     <SideSearchWrapper darkmode={darkmode}>
       {!searchMode ? (
@@ -36,6 +43,7 @@ export default function SidePanelSearchBar({ onClickSideMenu }) {
         />
       )}
       {!searchMode && <fa.FaSearch onClick={handleChangeMode} />}
+      <SidePanelOffMenu starMenu={starMenu} onClickSideMenu={onClickSideMenu} />
     </SideSearchWrapper>
   );
 }

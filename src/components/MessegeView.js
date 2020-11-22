@@ -1,4 +1,11 @@
-import React, { createRef, useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  createRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Avatar,
   ChatHeaderToolWrapper,
@@ -10,6 +17,7 @@ import {
   ManageMenuWrapper,
   HearingModal,
   Ellipsis,
+  MessageContainer
 } from "./StyledComponents";
 import * as fa from "react-icons/fa";
 import { MdHearing } from "react-icons/md";
@@ -27,7 +35,6 @@ export default function MessegeView({
   handleReply,
   isVoiceSupport,
   reply,
-  
 }) {
   const [messegeSearchMode, setMessegeSearchMode] = useState(true);
   const [manageMenu, setManageMenu] = useState(false);
@@ -35,7 +42,6 @@ export default function MessegeView({
   const chatRef = useRef();
   useEffect(() => {
     chatRef.current.scrollTo(0, chatRef.current.scrollHeight);
-
   }, [chatRef]);
 
   const rightClickHistory = useCallback((e) => {
@@ -79,14 +85,18 @@ export default function MessegeView({
       {!record && (
         <HearingModal>
           <MdHearing />
-          {isVoiceSupport ? <span>
-            Listening
-            <Ellipsis>
-              <span>.</span>
-              <span>.</span>
-              <span>.</span>
-            </Ellipsis>
-          </span> : 'Your PC doesnt support voice chat , or we have no access to your mic.'}
+          {isVoiceSupport ? (
+            <span>
+              Listening
+              <Ellipsis>
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+              </Ellipsis>
+            </span>
+          ) : (
+            "Your PC doesnt support voice chat , or we have no access to your mic."
+          )}
         </HearingModal>
       )}
       <ChatPage
@@ -97,15 +107,17 @@ export default function MessegeView({
       >
         {chats.map((chat) => {
           return (
-            <Messege
-              key={chat.id}
-              message={chat.messege}
-              time={chat.messegeTime}
-              isOpponent={chat.isOpponent}
-              handleReply={() => handleReply(chat.messege)}
-              reply={reply}
-              id={chat.id}
-            />
+            <MessageContainer key={chat.id}>
+              <Messege
+                
+                message={chat.messege}
+                time={chat.messegeTime}
+                isOpponent={chat.isOpponent}
+                handleReply={() => handleReply(chat.messege)}
+                reply={reply}
+                id={chat.id}
+              />
+            </MessageContainer>
           );
         })}
       </ChatPage>
