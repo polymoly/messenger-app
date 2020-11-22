@@ -5,14 +5,21 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { MessegeWrapper, ContextClick, UndoWrapper, ReplyMessege } from "./StyledComponents";
+import {
+  MessegeWrapper,
+  ContextClick,
+  UndoWrapper,
+  ReplyMessege,
+  ReadMore
+} from "./StyledComponents";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 import { DataContext } from "./Context";
-function Messege({ message, isOpponent, time,handleReply,reply,id }) {
+function Messege({ message, isOpponent, time, handleReply, reply, id }) {
   const [isRightclick, setIsRighClick] = useState(false);
   const [undo, setUndo] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [isCollapse, setIsCollapse] = useState(false);
   const { darkmode } = useContext(DataContext);
   const contextRef = createRef();
   const handleRightClick = (e) => {
@@ -21,7 +28,6 @@ function Messege({ message, isOpponent, time,handleReply,reply,id }) {
     if (e.type === "contextmenu") {
       if (!isDelete) {
         setIsRighClick(true);
-      
       }
     }
   };
@@ -65,6 +71,10 @@ function Messege({ message, isOpponent, time,handleReply,reply,id }) {
     setIsDelete(false);
     setUndo(false);
   };
+
+  const handleCollapse =() => {
+    setIsCollapse(true)
+  }
   return (
     <MessegeWrapper
       darkmode={darkmode}
@@ -79,22 +89,36 @@ function Messege({ message, isOpponent, time,handleReply,reply,id }) {
           darkmode={darkmode}
           isOpponent={isOpponent}
           isRightclick={isRightclick}
-          
         >
           <span onClick={handleDelete}>Delete message</span>
           <span onClick={handleReply}>Reply message</span>
         </ContextClick>
-
       )}
-      {reply && <ReplyMessege isOpponent={isOpponent}>
-          <span>{!isOpponent ? "You" : 'Alireza'}</span>
-          <span>{message.length > 290 ? `${message.substring(0,290)}...` : message}</span>
-        </ReplyMessege>}
-      {!isDelete
-        ? message.length> 600 ? `${message.substring(0,600)}...`  : message 
-        : !isOpponent
-        ? "You deleted this message"
-        : "This message was deleted"}
+      {reply && (
+        <ReplyMessege isOpponent={isOpponent} darkmode={darkmode}>
+          <span>{!isOpponent ? "You" : "Alireza"}</span>
+          <span>
+            {message.length > 290 ? `${message.substring(0, 290)}...` : message}
+          </span>
+        </ReplyMessege>
+      )}
+      {!isDelete ? (
+        !isCollapse ? (
+          message.length > 600 ? (
+            <div>
+              {message.substring(0, 600)}...<ReadMore onClick={handleCollapse}>Read more</ReadMore>
+            </div>
+          ) : (
+            message
+          )
+        ) : (
+          message
+        )
+      ) : !isOpponent ? (
+        "You deleted this message"
+      ) : (
+        "This message was deleted"
+      )}
       <span>{time}</span>
       {undo && (
         <UndoWrapper
@@ -103,7 +127,6 @@ function Messege({ message, isOpponent, time,handleReply,reply,id }) {
           darkmode={darkmode}
         >
           <CountdownCircleTimer
-
             size={25}
             strokeWidth={3}
             trailColor="transparent"

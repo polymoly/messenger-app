@@ -16,6 +16,7 @@ export default function ChatView({ id, gender, onClick }) {
   const [menu, setMenu] = useState(false);
   const [reply, setReply] = useState(false);
   const [replyMessege, setReplyMessege] = useState("");
+  const [isVoiceSupport,setIsVoiceSupport] = useState(true);
 
   const { darkmode } = useContext(DataContext);
   const newChat = {
@@ -59,7 +60,7 @@ export default function ChatView({ id, gender, onClick }) {
   const handleChat = (val) => {
     setChat(val);
   };
-  const handleListening = (record) => {
+  const handleListening = (record ) => {
     setRecord(record);
   };
   const handleMenuOpen = (value) => {
@@ -87,10 +88,12 @@ export default function ChatView({ id, gender, onClick }) {
           isOpen={handleMenuOpen}
           gender={gender}
           handleReply={handleReply}
+          isVoiceSupport={isVoiceSupport}
+        
         />
       )}
-      <ReplyWrapper reply={reply}>
-        <ReplyMessege>
+      {info.length !== 0 && <ReplyWrapper reply={reply} darkmode={darkmode}>
+        <ReplyMessege darkmode={darkmode}>
           <span>{info[1]}</span>
           <span>
             {replyMessege.length > 180
@@ -99,12 +102,13 @@ export default function ChatView({ id, gender, onClick }) {
           </span>
         </ReplyMessege>
         <fa.FaTimes onClick={closeReply} />
-      </ReplyWrapper>
+      </ReplyWrapper>}
       {info.length !== 0 && (
         <MessegeInput
           id={id}
           onClick={handleChat}
           handleListening={handleListening}
+          setIsVoiceSupport={setIsVoiceSupport}
         />
       )}
     </ChatViewWrapper>

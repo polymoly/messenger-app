@@ -11,12 +11,13 @@ import {
 import Picker from "emoji-picker-react";
 import { DataContext } from "./Context";
 
-export default function MessegeInput({ onClick, handleListening, id }) {
+export default function MessegeInput({ onClick, handleListening, setIsVoiceSupport }) {
   const [val, setVal] = useState("");
   const [Record, setRecord] = useState(false);
   const inputRef = useRef();
   const [isEmoji, setIsEmoji] = useState(false);
   const {darkmode} = useContext(DataContext);
+
 
   useEffect(() => {
     if (val.length > 1) {
@@ -24,7 +25,7 @@ export default function MessegeInput({ onClick, handleListening, id }) {
     }
   }, [val]);
   const handleKeypress = (e) => {
-    if (e.key === "Enter" && val) {
+    if (e.key === "Enter" && val.length !== 0) {
       setVal("");
       onClick(val);
       setIsEmoji(false);
@@ -47,6 +48,8 @@ export default function MessegeInput({ onClick, handleListening, id }) {
         recognition.stop();
         console.log("voice search ended");
       }
+    }else{
+      setIsVoiceSupport(false)
     }
   };
   const resultOfSpeech = (event) => {

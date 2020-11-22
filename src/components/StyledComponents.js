@@ -207,7 +207,7 @@ export const InputSearch = styled.div`
 export const MessegeViewWrapper = styled.div`
   position: relative;
   width: 100%;
-  padding: ${(props) => (props.reply ? "140px 0" : "70px 0")};
+  padding: ${(props) => (props.reply ? "70px 0 140px 0" : "70px 0 70px 0")};
   height: 100%;
   background-color: #ece5dd;
   background-image: url("./images/bg.png");
@@ -395,6 +395,7 @@ export const SidePanelInput = styled.input`
   outline: none;
   padding: 0 5px;
   font-size: 0.9rem;
+  transition: all 0.2s ease;
   background-color: transparent;
   &::placeholder {
     color: #ccc;
@@ -413,6 +414,7 @@ export const MessegeViewInput = styled.input`
   outline: none;
   padding: 0 5px;
   font-size: 0.9rem;
+  transition: all 0.2s ease;
   background-color: transparent;
   &::placeholder {
     color: #ccc;
@@ -435,10 +437,11 @@ export const ContextClick = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease;
   box-shadow: 0px 0px 1px rgba(100, 100, 100, 0.2);
   span {
-    color: #333;
+    color: ${(props) => (props.darkmode ? "#f2f2f2" : "#333")};
+    transition: all 0.2s ease;
     font-size: 0.8rem;
     padding: 3px 8px;
     width: 100%;
@@ -466,7 +469,7 @@ export const UndoWrapper = styled.div`
   display: flex;
 
   align-items: center;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease;
   cursor: pointer;
   box-shadow: 0px 0px 2px rgba(100, 100, 100, 0.2);
   span {
@@ -506,12 +509,13 @@ export const ManageMenuWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   overflow: hidden;
+  transition: all 0.2s ease;
   span {
     font-size: 0.93rem;
     color: ${(props) => (props.darkmode ? "#fff" : "#222")};
     width: 100%;
     padding: 5px 10px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     cursor: pointer;
     &:hover {
       background-color: ${(props) =>
@@ -523,6 +527,7 @@ export const ManageMenuWrapper = styled.div`
 export const HearingModal = styled.div`
   animation: 1s ${FadeIn};
   position: absolute;
+  text-align:center;
   width: 400px;
   max-width: 95%;
   margin: 0 auto;
@@ -608,6 +613,7 @@ export const SideMenuHeader = styled.div`
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
+    transition: all 0.2s ease;
     font-size: 1.3rem;
     color: ${(props) => (props.darkmode ? "#f2f2f2" : "#444")};
     cursor: pointer;
@@ -625,6 +631,7 @@ export const SideMenuInput = styled.input`
   padding: 0 5px;
   margin-top: 20px;
   font-size: 0.9rem;
+  transition: all 0.2s ease;
   background-color: transparent;
   &::placeholder {
     color: #ccc;
@@ -639,12 +646,20 @@ export const FilterSearch = styled.p`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  p {
+    &:first-child {
+      text-align: left;
+    }
+    &:nth-child(2) {
+      margin-left: 5px;
+    }
+  }
 `;
 
 export const ReplyWrapper = styled.div`
   width: 100%;
   height: 70px;
-  background-color: #f1ebe7;
+  background-color: ${(props) => (props.darkmode ? secondaryColor : "#f1ebe7")};
   position: absolute;
   bottom: 0px;
   left: 0;
@@ -653,7 +668,7 @@ export const ReplyWrapper = styled.div`
   justify-content: center;
   align-items: center;
   transition: all 0.2s ease;
-  padding: 4px 80px 0 40px;
+  padding: 1px 80px 0 40px;
 
   transform: ${(props) => (props.reply ? "translateY(-100%)" : "none")};
   svg {
@@ -661,6 +676,7 @@ export const ReplyWrapper = styled.div`
     right: 20px;
     top: 10px;
     cursor: pointer;
+    color: ${(props) => (props.darkmode ? "#fff" : "#222")};
   }
 `;
 
@@ -672,7 +688,9 @@ export const ReplyMessege = styled.div`
   width: 100%;
   height: 90%;
   margin: 5px 0;
-  background-color: rgba(110, 110, 110, 0.11);
+  background-color: ${(props) =>
+    props.darkmode ? "#0a111d" : "rgba(110, 110, 110, 0.11)"};
+  color: ${(props) => (props.darkmode ? "#f2f2f2" : "#222")};
   border-left: ${(props) =>
     props.isOpponent ? "4px solid #34b7f1" : "4px solid #b819d8"};
   display: flex;
@@ -680,9 +698,21 @@ export const ReplyMessege = styled.div`
   align-items: flex-start;
   flex-direction: column;
   font-size: 0.9rem;
+  transition: all 0.2s ease;
   span {
     &:first-child {
       color: ${(props) => (props.isOpponent ? "#34b7f1" : "#b819d8")};
     }
   }
+  span {
+    &:nth-child(2) {
+      color: ${(props) => (props.darkmode ? "#ccc" : "#222")};
+    }
+  }
+`;
+
+export const ReadMore = styled.span`
+  color: #34b7f1;
+  cursor: pointer;
+  margin-left:2px;
 `;

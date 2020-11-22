@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { createRef, useCallback, useContext, useEffect, useRef, useState } from "react";
 import {
   Avatar,
   ChatHeaderToolWrapper,
@@ -25,14 +25,18 @@ export default function MessegeView({
   gender,
   onClick,
   handleReply,
-  reply
+  isVoiceSupport,
+  reply,
+  
 }) {
   const [messegeSearchMode, setMessegeSearchMode] = useState(true);
   const [manageMenu, setManageMenu] = useState(false);
   const { darkmode } = useContext(DataContext);
-  // useEffect(() => {
-  //   chatRef.current.scrollTo(200, chatRef.current.scrollHeight);
-  // }, [chatRef]);
+  const chatRef = useRef();
+  useEffect(() => {
+    chatRef.current.scrollTo(0, chatRef.current.scrollHeight);
+
+  }, [chatRef]);
 
   const rightClickHistory = useCallback((e) => {
     if (e.type === "contextmenu") {
@@ -75,19 +79,19 @@ export default function MessegeView({
       {!record && (
         <HearingModal>
           <MdHearing />
-          <span>
+          {isVoiceSupport ? <span>
             Listening
             <Ellipsis>
               <span>.</span>
               <span>.</span>
               <span>.</span>
             </Ellipsis>
-          </span>
+          </span> : 'Your PC doesnt support voice chat , or we have no access to your mic.'}
         </HearingModal>
       )}
       <ChatPage
         darkmode={darkmode}
-        // ref={chatRef}
+        ref={chatRef}
         onClick={handleClearWindow}
         onContextMenu={rightClickHistory}
       >
