@@ -22,6 +22,10 @@ export const ChatViewWrapper = styled.div`
   justify-content: center;
   height: 100%;
   background-color: ${(props) => (props.darkmdoe ? secondaryColor : "#ece5dd")};
+  background-image:url('./images/initBg.svg');
+  background-position:center;
+  background-size:contain;
+  background-repeat:no-repeat;
   transition: all 0.5s ease-in-out;
   margin-right: ${(props) => (props.menu ? "400px" : 0)};
 `;
@@ -210,7 +214,7 @@ export const MessegeViewWrapper = styled.div`
   padding: ${(props) => (props.reply ? "70px 0 140px 0" : "70px 0 70px 0")};
   height: 100%;
   background-color: #ece5dd;
-  background-image: url("./images/bg.png");
+  background-image: url("./images/bgDoodle.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -530,9 +534,9 @@ export const UnstarAllBtn = styled.div`
   font-size: 1rem;
   animation: 0.5s ${FadeIn};
   box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.15);
-  cursor:pointer;
-  &:hover{
-    background-color:#e4e4e4;
+  cursor: pointer;
+  &:hover {
+    background-color: #e4e4e4;
   }
 `;
 export const StarMessage = styled.div`

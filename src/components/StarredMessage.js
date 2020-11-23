@@ -15,7 +15,7 @@ export default function StarredMessage() {
     <StarredMessageWrapper>
       <UserStarred>
         <UserInfo>
-          <Avatar gender="male" /> <span>amirhosein . you</span>
+          <Avatar gender="male" /> <span>amirhosein&#12539;you</span>
         </UserInfo>
         <StarredTime>
           <span>22:44</span>
